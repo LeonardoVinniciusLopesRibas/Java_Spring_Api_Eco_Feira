@@ -7,11 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -21,61 +21,56 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class UserHelpDesk implements UserDetails {
+public class UsuarioEmpresa implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idHelpDeskSupport;
+    private Long idUsuarioEmpresa;
 
     @Column(nullable = false)
     @NotNull(message = "O usuário do suporte é obrigatório!")
-    private String user;
+    private String usuario;
 
     @Column(nullable = false)
     @NotNull(message = "A senha é do usuário do suporte é obrigatória")
     @Size(min = 8, message = "O número de caracteres insuficientes - Mínimo 8 caracteres")
-    private String password;
+    private String senha;
 
     @ManyToOne
-    @JoinColumn(name = "roleId", nullable = false)
-    private Role role;
+    @JoinColumn(name = "perfilAcessoId", nullable = false)
+    private PerfilAcesso perfilAcessoId;
 
-    @OneToMany(mappedBy = "userHelpDeskRegister")
-    private List<Enterprise> enterprises = new ArrayList<>();
+    @OneToMany(mappedBy = "usuarioEmpresa")
+    private List<UsuarioEmpresa_Empresa_Associados> usuarioEmpresa_empresa_associados = new ArrayList<>();
 
-    @OneToMany(mappedBy = "userHelpDeskRegister")
-    private List<City> cities = new ArrayList<>();
+    @OneToMany(mappedBy = "usuarioEmpresa")
+    private List<Produto> produtos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "userHelpDeskRegister")
-    private List<Address> addresses = new ArrayList<>();
+    private boolean ativo;
 
-    @OneToMany(mappedBy = "userHelpDeskRegister")
-    private List<EnterpriseGroup> enterpriseGroups = new ArrayList<>();
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "userHelpDeskRegister")
-    private List<State> states = new ArrayList<>();
-
-    @OneToMany(mappedBy = "userHelpDeskRegister")
-    private List<Country> countries = new ArrayList<>();
-
+    @Column(nullable = false)
+    private LocalDateTime dataHoraAlteracao = LocalDateTime.now();
 
 
     //MÉTODOS AUTOMÁTICOS PARA VALIDAÇÃO DO SPRING
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(role.getDescription()));
+        authorities.add(new SimpleGrantedAuthority(perfilAcessoId.getDescricao()));
         return authorities;
     }
 
     @Override
     public String getPassword() {
-        return password;
+        return senha;
     }
 
     @Override
     public String getUsername() {
-        return user;
+        return usuario;
     }
 
     @Override
@@ -97,6 +92,5 @@ public class UserHelpDesk implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 
 }

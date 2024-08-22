@@ -14,44 +14,44 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Address {
+public class Endereco {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idAddress;
+    private Long idEndereco;
 
     @Column(nullable = false)
     @NotNull(message = "A rua é obrigatória")
-    private String street;
+    private String logradouro;
 
     @Column(nullable = false)
     @NotNull(message = "O número é obrigatório")
-    private String number;
+    private String numero;
 
-    private String complement;
+    private String complemento;
 
     @Column(nullable = false)
     @NotNull(message = "O bairro é obrigatório")
-    private String neighborhood;
+    private String bairro;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cityId", nullable = false)
-    private City city;
+    @JoinColumn(name = "cidadeId", nullable = false)
+    private Cidade cidadeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "enterpriseId", nullable = false)
-    private Enterprise enterprise;
+    @JoinColumn(name = "empresaId", nullable = false)
+    private Empresa empresaId;
 
-    private boolean active;
+    private boolean ativo;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdDateTime;
+    private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
     @Column(nullable = false)
-    private LocalDateTime lastModifiedDateTime;
+    private LocalDateTime dataHoraAlteracao = LocalDateTime.now();
 
     @ManyToOne
-    @JoinColumn(name = "userHelpDeskId", nullable = false, updatable = false)
-    private UserHelpDesk userHelpDeskRegister;
+    @JoinColumn(name = "usuarioSuporteId", nullable = false, updatable = false)
+    private UsuarioSuporte usuarioSuporteId;
 
 }

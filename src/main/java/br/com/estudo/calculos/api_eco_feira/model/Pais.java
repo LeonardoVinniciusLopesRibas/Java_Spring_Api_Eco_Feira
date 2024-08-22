@@ -16,34 +16,34 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Country {
+public class Pais {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCountry;
+    private Long idPais;
 
     @Column(nullable = false)
     @NotNull(message = "O nome do país é obrigatório")
-    private String name;
+    private String nome;
 
     @Column(nullable = false)
     @NotNull(message = "A sigla do país é obrigatória")
-    private String acronym;
+    private String sigla;
 
     //UM PAIS PARA MUITOS ESTADOS
-    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<State> states = new ArrayList<>();
+    @OneToMany(mappedBy = "pais", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Estado> estados = new ArrayList<>();
 
-    private boolean active;
+    private boolean ativo;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdDateTime;
+    private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
     @Column(nullable = false)
-    private LocalDateTime lastModifiedDateTime;
+    private LocalDateTime dataHoraAlteracao = LocalDateTime.now();
 
     @ManyToOne
-    @JoinColumn(name = "userHelpDeskId", nullable = false, updatable = false)
-    private UserHelpDesk userHelpDeskRegister;
+    @JoinColumn(name = "usuarioSuporteId", nullable = false, updatable = false)
+    private UsuarioSuporte usuarioSuporteId;
 
 }

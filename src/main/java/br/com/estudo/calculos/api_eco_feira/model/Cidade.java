@@ -14,15 +14,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class City {
+public class Cidade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCity;
+    private Long idCidade;
 
     @Column(nullable = false)
     @NotNull(message = "O nome da cidade não pode estar vazio")
-    private String name;
+    private String nome;
 
     @Column(nullable = false)
     @NotNull(message = "O código do ibge é obrigatório")
@@ -30,19 +30,19 @@ public class City {
 
     //MUITAS CIDADES PARA UM ESTADO
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "stateId", nullable = false)
-    private State state;
+    @JoinColumn(name = "estadoId", nullable = false)
+    private Estado estadoId;
 
-    private boolean active;
+    private boolean ativo;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdDateTime;
+    private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
     @Column(nullable = false)
-    private LocalDateTime lastModifiedDateTime;
+    private LocalDateTime dataHoraAlteracao = LocalDateTime.now();
 
     @ManyToOne
-    @JoinColumn(name = "userHelpDeskId", nullable = false, updatable = false)
-    private UserHelpDesk userHelpDeskRegister;
+    @JoinColumn(name = "usuarioSuporteId", nullable = false, updatable = false)
+    private UsuarioSuporte usuarioSuporteId;
 
 }

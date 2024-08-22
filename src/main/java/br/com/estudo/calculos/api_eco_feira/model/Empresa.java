@@ -16,19 +16,19 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Enterprise {
+public class Empresa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idEnterprise;
+    private Long idEmpresa;
 
     @Column(nullable = false)
     @NotNull(message = "O nome fantasia é obrigatório")
-    private String fantasyName;
+    private String nomeFantasia;
 
     @Column(nullable = false)
     @NotNull(message = "O nome fantasia é obrigatório")
-    private String companyName;
+    private String razaoSocial;
 
     @Column(nullable = false)
     @NotNull(message = "O nome fantasia é obrigatório")
@@ -36,7 +36,7 @@ public class Enterprise {
 
     @Column(nullable = false)
     @NotNull(message = "O telefone é obrigatório")
-    private String phoneNumber;
+    private String numeroTelefone;
 
     @Column(nullable = false)
     @NotNull(message = "O e-mail é obrigatório")
@@ -44,33 +44,33 @@ public class Enterprise {
 
     @Column(nullable = false)
     @NotNull(message = "A atividade principal é obrigatória")
-    private String mainActivity;
+    private String atividadePrincipal;
 
     @Column(length = 500)
-    private String description;
+    private String descricao;
 
     @Column(nullable = true)
     private String logoUrl;
 
-    @OneToMany(mappedBy = "enterprise", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Address> addresses;
+    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Endereco> enderecos = new ArrayList<>();
 
-    private boolean active;
+    private boolean ativo;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdDateTime;
+    private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
     @Column(nullable = false)
-    private LocalDateTime lastModifiedDateTime;
+    private LocalDateTime dataHoraAlteracao = LocalDateTime.now();
 
     @ManyToOne
-    @JoinColumn(name = "userHelpDeskId", nullable = false, updatable = false)
-    private UserHelpDesk userHelpDeskRegister;
+    @JoinColumn(name = "usuarioSuporteId", nullable = false, updatable = false)
+    private UsuarioSuporte usuarioSuporteId;
 
     @ManyToOne
-    @JoinColumn(name = "enterpriseGroupId", nullable = false)
-    private EnterpriseGroup enterpriseGroup;
+    @JoinColumn(name = "grupoEmpresaId", nullable = false)
+    private GrupoEmpresa grupoEmpresaId;
 
-    @OneToMany(mappedBy = "enterprise")
-    private List<UserEnterpriseAssociation> userEnterpriseAssociations = new ArrayList<>();
+    @OneToMany(mappedBy = "empresa")
+    private List<UsuarioEmpresa_Empresa_Associados> usuarioEmpresa_empresa_associados = new ArrayList<>();
 }

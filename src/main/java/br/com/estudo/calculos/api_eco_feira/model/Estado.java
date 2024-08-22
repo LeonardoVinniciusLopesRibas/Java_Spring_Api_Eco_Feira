@@ -16,38 +16,38 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class State {
+public class Estado {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idState;
+    private Long idEstado;
 
     @Column(nullable = false)
     @NotNull(message = "O nome do estado é obrigatório")
-    private String name;
+    private String nome;
 
     @Column(nullable = false)
     @NotNull(message = "A sigla do estado é obrigatória")
-    private String acronym;
+    private String sigla;
 
     //MUITOS ESTADOS PARA UM PAÍS
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "countryId", nullable = false)
-    private Country country;
+    @JoinColumn(name = "paisId", nullable = false)
+    private Pais paisId;
 
     //UM ESTADO PARA MUITAS CIDADES
-    @OneToMany(mappedBy = "state", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<City> cities = new ArrayList<>();
+    @OneToMany(mappedBy = "estado", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Cidade> cidade = new ArrayList<>();
 
-    private boolean active;
+    private boolean ativo;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdDateTime;
+    private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
     @Column(nullable = false)
-    private LocalDateTime lastModifiedDateTime;
+    private LocalDateTime dataHoraAlteracao = LocalDateTime.now();
 
     @ManyToOne
-    @JoinColumn(name = "userHelpDeskId", nullable = false, updatable = false)
-    private UserHelpDesk userHelpDeskRegister;
+    @JoinColumn(name = "usuarioSuporteId", nullable = false, updatable = false)
+    private UsuarioSuporte usuarioSuporteId;
 }

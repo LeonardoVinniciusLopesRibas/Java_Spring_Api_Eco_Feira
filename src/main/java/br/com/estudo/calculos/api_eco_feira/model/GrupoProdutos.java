@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -15,28 +16,29 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class EnterpriseGroup {
+public class GrupoProdutos {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idEnterpriseGroup;
-
-    @NotNull(message = "O nome do grupo é obrigatório")
-    private String nome;
-
-    @OneToMany(mappedBy = "enterpriseGroup", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Enterprise> enterprises;
-
-    private boolean active;
-
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdDateTime;
+    private Long idGrupo;
 
     @Column(nullable = false)
-    private LocalDateTime lastModifiedDateTime;
+    @NotNull(message = "O nome do grupo é obrigatório")
+    private String descricaoGrupo;
 
     @ManyToOne
-    @JoinColumn(name = "userHelpDeskId", nullable = false, updatable = false)
-    private UserHelpDesk userHelpDeskRegister;
+    @JoinColumn(name = "usuarioEmpresaId", nullable = false)
+    private UsuarioEmpresa usuarioEmpresaId;
+
+    @OneToMany(mappedBy = "grupoProdutos")
+    private List<Produto> produtos = new ArrayList<>();
+
+    private boolean ativo;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime dataHoraCriacao = LocalDateTime.now();
+
+    @Column(nullable = false)
+    private LocalDateTime dataHoraAlteracao = LocalDateTime.now();
 
 }

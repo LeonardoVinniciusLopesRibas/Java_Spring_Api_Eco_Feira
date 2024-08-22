@@ -20,27 +20,42 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class UserEnterprise implements UserDetails {
+public class UsuarioSuporte implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUserEnterprise;
+    private Long idUsuarioSuporte;
 
     @Column(nullable = false)
     @NotNull(message = "O usuário do suporte é obrigatório!")
-    private String user;
+    private String usuario;
 
     @Column(nullable = false)
     @NotNull(message = "A senha é do usuário do suporte é obrigatória")
     @Size(min = 8, message = "O número de caracteres insuficientes - Mínimo 8 caracteres")
-    private String password;
+    private String senha;
 
     @ManyToOne
-    @JoinColumn(name = "roleId", nullable = false)
-    private Role role;
+    @JoinColumn(name = "perfilAcessoID", nullable = false)
+    private PerfilAcesso perfilAcessoID;
 
-    @OneToMany(mappedBy = "userEnterprise")
-    private List<UserEnterpriseAssociation> userEnterpriseAssociations = new ArrayList<>();
+    @OneToMany(mappedBy = "usuarioSuporte")
+    private List<Empresa> empresas = new ArrayList<>();
+
+    @OneToMany(mappedBy = "usuarioSuporte")
+    private List<Cidade> cidades = new ArrayList<>();
+
+    @OneToMany(mappedBy = "usuarioSuporte")
+    private List<Endereco> enderecos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "usuarioSuporte")
+    private List<GrupoEmpresa> grupoEmpresas = new ArrayList<>();
+
+    @OneToMany(mappedBy = "usuarioSuporte")
+    private List<Estado> estados = new ArrayList<>();
+
+    @OneToMany(mappedBy = "usuarioSuporte")
+    private List<Pais> paises = new ArrayList<>();
 
 
 
@@ -48,18 +63,18 @@ public class UserEnterprise implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(role.getDescription()));
+        authorities.add(new SimpleGrantedAuthority(perfilAcessoID.getDescricao()));
         return authorities;
     }
 
     @Override
     public String getPassword() {
-        return password;
+        return senha;
     }
 
     @Override
     public String getUsername() {
-        return user;
+        return usuario;
     }
 
     @Override
@@ -81,5 +96,6 @@ public class UserEnterprise implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 
 }

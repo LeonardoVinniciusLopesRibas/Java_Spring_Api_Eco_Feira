@@ -20,7 +20,7 @@ public class Enterprise {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idEnterpriseGroup;
+    private Long idEnterprise;
 
     @Column(nullable = false)
     @NotNull(message = "O nome fantasia é obrigatório")
@@ -70,4 +70,7 @@ public class Enterprise {
     @ManyToOne
     @JoinColumn(name = "enterpriseGroupId", nullable = false)
     private EnterpriseGroup enterpriseGroup;
+
+    @OneToMany(mappedBy = "enterprise")
+    private List<UserEnterpriseAssociation> userEnterpriseAssociations = new ArrayList<>();
 }

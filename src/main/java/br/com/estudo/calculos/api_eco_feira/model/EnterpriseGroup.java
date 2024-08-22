@@ -1,6 +1,7 @@
 package br.com.estudo.calculos.api_eco_feira.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,8 +19,9 @@ public class EnterpriseGroup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idEnterpriseGroup;
 
+    @NotNull(message = "O nome do grupo é obrigatório")
     private String nome;
 
     @OneToMany(mappedBy = "enterpriseGroup", cascade = CascadeType.ALL, orphanRemoval = true)

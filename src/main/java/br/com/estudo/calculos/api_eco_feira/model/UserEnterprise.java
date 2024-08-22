@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,11 +20,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class UserHelpDesk implements UserDetails {
+public class UserEnterprise implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idHelpDeskSupport;
+    private Long idUserEnterprise;
 
     @Column(nullable = false)
     @NotNull(message = "O usuário do suporte é obrigatório!")
@@ -40,23 +39,8 @@ public class UserHelpDesk implements UserDetails {
     @JoinColumn(name = "roleId", nullable = false)
     private Role role;
 
-    @OneToMany(mappedBy = "userHelpDeskRegister")
-    private List<Enterprise> enterprises = new ArrayList<>();
-
-    @OneToMany(mappedBy = "userHelpDeskRegister")
-    private List<City> cities = new ArrayList<>();
-
-    @OneToMany(mappedBy = "userHelpDeskRegister")
-    private List<Address> addresses = new ArrayList<>();
-
-    @OneToMany(mappedBy = "userHelpDeskRegister")
-    private List<EnterpriseGroup> enterpriseGroups = new ArrayList<>();
-
-    @OneToMany(mappedBy = "userHelpDeskRegister")
-    private List<State> states = new ArrayList<>();
-
-    @OneToMany(mappedBy = "userHelpDeskRegister")
-    private List<Country> countries = new ArrayList<>();
+    @OneToMany(mappedBy = "userEnterprise")
+    private List<UserEnterpriseAssociation> userEnterpriseAssociations = new ArrayList<>();
 
 
 
@@ -97,6 +81,5 @@ public class UserHelpDesk implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 
 }

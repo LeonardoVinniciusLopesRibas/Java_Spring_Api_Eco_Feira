@@ -1,13 +1,13 @@
 package br.com.estudo.calculos.api_eco_feira.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,9 +18,23 @@ public class EnterpriseGroup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idEnterpriseGroup;
-    private String fantasyName;
-    private String companyName;
-    private String cnpj;
+    private Long id;
+
+    private String nome;
+
+    @OneToMany(mappedBy = "enterpriseGroup", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Enterprise> enterprises;
+
+    private boolean active;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdDateTime;
+
+    @Column(nullable = false)
+    private LocalDateTime lastModifiedDateTime;
+
+    @ManyToOne
+    @JoinColumn(name = "userHelpDeskId", nullable = false, updatable = false)
+    private UserHelpDesk userHelpDeskRegister;
 
 }

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,20 @@ public class Country {
     @NotNull(message = "A sigla do país é obrigatória")
     private String acronym;
 
+    //UM PAIS PARA MUITOS ESTADOS
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<State> states = new ArrayList<>();
+
+    private boolean active;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdDateTime;
+
+    @Column(nullable = false)
+    private LocalDateTime lastModifiedDateTime;
+
+    @ManyToOne
+    @JoinColumn(name = "userHelpDeskId", nullable = false, updatable = false)
+    private UserHelpDesk userHelpDeskRegister;
 
 }

@@ -8,36 +8,39 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class State {
+public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idState;
+    private Long idAddress;
 
     @Column(nullable = false)
-    @NotNull(message = "O nome do estado é obrigatório")
-    private String name;
+    @NotNull(message = "A rua é obrigatória")
+    private String street;
 
     @Column(nullable = false)
-    @NotNull(message = "A sigla do estado é obrigatória")
-    private String acronym;
+    @NotNull(message = "O número é obrigatório")
+    private String number;
 
-    //MUITOS ESTADOS PARA UM PAÍS
+    private String complement;
+
+    @Column(nullable = false)
+    @NotNull(message = "O bairro é obrigatório")
+    private String neighborhood;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "countryId", nullable = false)
-    private Country country;
+    @JoinColumn(name = "cityId", nullable = false)
+    private City city;
 
-    //UM ESTADO PARA MUITAS CIDADES
-    @OneToMany(mappedBy = "state", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<City> cities = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "enterpriseId", nullable = false)
+    private Enterprise enterprise;
 
     private boolean active;
 
@@ -50,4 +53,5 @@ public class State {
     @ManyToOne
     @JoinColumn(name = "userHelpDeskId", nullable = false, updatable = false)
     private UserHelpDesk userHelpDeskRegister;
+
 }

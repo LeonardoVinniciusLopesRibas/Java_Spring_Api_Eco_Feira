@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -29,5 +32,22 @@ public class UserHelpDesk {
     @Size(min = 8, message = "O número de caracteres insuficientes - Mínimo 8 caracteres")
     private String password;
 
+    @OneToMany(mappedBy = "userHelpDeskRegister")
+    private List<Enterprise> enterprises = new ArrayList<>();
+
+    @OneToMany(mappedBy = "userHelpDeskRegister")
+    private List<City> cities = new ArrayList<>();
+
+    @OneToMany(mappedBy = "userHelpDeskRegister")
+    private List<Address> addresses = new ArrayList<>();
+
+    @OneToMany(mappedBy = "userHelpDeskRegister")
+    private List<EnterpriseGroup> enterpriseGroups = new ArrayList<>();
+
+    @OneToMany(mappedBy = "userHelpDeskRegister")
+    private List<State> states = new ArrayList<>();
+
+    @OneToMany(mappedBy = "userHelpDeskRegister")
+    private List<Country> countries = new ArrayList<>();
 
 }

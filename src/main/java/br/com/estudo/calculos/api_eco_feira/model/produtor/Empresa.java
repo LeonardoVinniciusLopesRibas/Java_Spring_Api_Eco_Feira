@@ -1,5 +1,6 @@
-package br.com.estudo.calculos.api_eco_feira.model;
+package br.com.estudo.calculos.api_eco_feira.model.produtor;
 
+import br.com.estudo.calculos.api_eco_feira.model.UsuarioSuporte;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -27,11 +28,11 @@ public class Empresa {
     private String nomeFantasia;
 
     @Column(nullable = false)
-    @NotNull(message = "O nome fantasia é obrigatório")
+    @NotNull(message = "A razão social é obrigatória")
     private String razaoSocial;
 
     @Column(nullable = false)
-    @NotNull(message = "O nome fantasia é obrigatório")
+    @NotNull(message = "O cnpj é obrigatório")
     private String cnpj;
 
     @Column(nullable = false)
@@ -52,8 +53,8 @@ public class Empresa {
     @Column(nullable = true)
     private String logoUrl;
 
-    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Endereco> enderecos = new ArrayList<>();
+    @OneToMany(mappedBy = "empresaProdutores", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EnderecoProdutor> enderecoProdutores = new ArrayList<>();
 
     private boolean ativo;
 
@@ -73,4 +74,5 @@ public class Empresa {
 
     @OneToMany(mappedBy = "empresa")
     private List<UsuarioEmpresa_Empresa_Associados> usuarioEmpresa_empresa_associados = new ArrayList<>();
+
 }

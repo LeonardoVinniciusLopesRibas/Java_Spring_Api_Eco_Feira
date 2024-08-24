@@ -1,8 +1,5 @@
-package br.com.estudo.calculos.api_eco_feira.model;
+package br.com.estudo.calculos.api_eco_feira.model.produtor;
 
-import br.com.estudo.calculos.api_eco_feira.model.produtor.Empresa;
-import br.com.estudo.calculos.api_eco_feira.model.produtor.EnderecoProdutor;
-import br.com.estudo.calculos.api_eco_feira.model.produtor.GrupoEmpresa;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -14,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,11 +21,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class UsuarioSuporte implements UserDetails {
+public class UsuarioEmpresa implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUsuarioSuporte;
+    private Long idUsuarioEmpresa;
 
     @Column(nullable = false)
     @NotNull(message = "O usuário do suporte é obrigatório!")
@@ -39,34 +37,32 @@ public class UsuarioSuporte implements UserDetails {
     private String senha;
 
     @ManyToOne
-    @JoinColumn(name = "perfilAcessoID", nullable = false)
-    private PerfilAcessoSuporte perfilAcessoSuporteId;
+    @JoinColumn(name = "perfilAcessoId", nullable = false)
+    private PerfilAcesso perfilAcessoId;
 
-    @OneToMany(mappedBy = "usuarioSuporte")
-    private List<Empresa> empresas = new ArrayList<>();
+    @OneToMany(mappedBy = "usuarioEmpresa")
+    private List<UsuarioEmpresa_Empresa_Associados> usuarioEmpresa_empresa_associados = new ArrayList<>();
 
-    @OneToMany(mappedBy = "usuarioSuporte")
-    private List<Cidade> cidades = new ArrayList<>();
+    @OneToMany(mappedBy = "usuarioEmpresa")
+    private List<Produto_Promocao_Associados> produto_promocao_associados = new ArrayList<>();
 
-    @OneToMany(mappedBy = "usuarioSuporte")
-    private List<EnderecoProdutor> enderecos = new ArrayList<>();
+    @OneToMany(mappedBy = "usuarioEmpresa")
+    private List<Produto> produtos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "usuarioSuporte")
-    private List<GrupoEmpresa> grupoEmpresas = new ArrayList<>();
+    private boolean ativo;
 
-    @OneToMany(mappedBy = "usuarioSuporte")
-    private List<Estado> estados = new ArrayList<>();
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "usuarioSuporte")
-    private List<Pais> paises = new ArrayList<>();
-
+    @Column(nullable = false)
+    private LocalDateTime dataHoraAlteracao = LocalDateTime.now();
 
 
     //MÉTODOS AUTOMÁTICOS PARA VALIDAÇÃO DO SPRING
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(perfilAcessoSuporteId.getDescricao()));
+        authorities.add(new SimpleGrantedAuthority(perfilAcessoId.getDescricao()));
         return authorities;
     }
 
@@ -99,6 +95,5 @@ public class UsuarioSuporte implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 
 }

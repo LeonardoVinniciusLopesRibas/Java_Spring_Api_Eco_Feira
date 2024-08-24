@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -16,22 +15,18 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class GrupoProdutos {
+public class PerfilAcessoSuporte {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idGrupo;
+    private Long idPerfilAcesso;
 
     @Column(nullable = false)
-    @NotNull(message = "O nome do grupo é obrigatório")
-    private String descricaoGrupo;
+    @NotNull(message = "A descrição do perfil de acesso não foi preenchida")
+    private String descricao;
 
-    @ManyToOne
-    @JoinColumn(name = "usuarioEmpresaId", nullable = false)
-    private UsuarioEmpresa usuarioEmpresaId;
-
-    @OneToMany(mappedBy = "grupoProdutos")
-    private List<Produto> produtos = new ArrayList<>();
+    @OneToMany(mappedBy = "perfilAcesso", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UsuarioSuporte> usuarioSuportes;
 
     private boolean ativo;
 

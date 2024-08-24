@@ -1,5 +1,6 @@
-package br.com.estudo.calculos.api_eco_feira.model;
+package br.com.estudo.calculos.api_eco_feira.model.prefeitura;
 
+import br.com.estudo.calculos.api_eco_feira.model.UsuarioSuporte;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -14,33 +15,25 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Endereco {
+public class Contato {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idEndereco;
+    private Long idPrefeitura;
+
+    @ManyToOne
+    @JoinColumn(name = "prefeituraId", nullable = false)
+    private Prefeitura prefeitura;
 
     @Column(nullable = false)
-    @NotNull(message = "A rua é obrigatória")
-    private String logradouro;
+    @NotNull(message = "Descrição do contato é obrigatória")
+    private String descricaoContato;
 
     @Column(nullable = false)
-    @NotNull(message = "O número é obrigatório")
-    private String numero;
+    @NotNull(message = "O telefone é obrigatório")
+    private String numeroTelefone;
 
-    private String complemento;
-
-    @Column(nullable = false)
-    @NotNull(message = "O bairro é obrigatório")
-    private String bairro;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cidadeId", nullable = false)
-    private Cidade cidadeId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "empresaId", nullable = false)
-    private Empresa empresaId;
+    private String email;
 
     private boolean ativo;
 

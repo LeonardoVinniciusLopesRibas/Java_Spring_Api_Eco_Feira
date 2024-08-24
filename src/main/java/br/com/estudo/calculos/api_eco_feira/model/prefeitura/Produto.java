@@ -1,5 +1,6 @@
-package br.com.estudo.calculos.api_eco_feira.model;
+package br.com.estudo.calculos.api_eco_feira.model.prefeitura;
 
+import br.com.estudo.calculos.api_eco_feira.model.central.DemandaProduto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -26,23 +27,20 @@ public class Produto {
     @Column(nullable = false)
     private String nome;
 
-    @NotNull(message = "O valor de custo é obrigatório")
+    @NotNull(message = "O valor para compra é obrigatório")
     @Column(nullable = false)
-    private double valorCusto;
-
-    @NotNull(message = "O valor de venda do produto é obrigatório")
-    @Column(nullable = false)
-    private double valorVenda;
+    private double valorCompra;
 
     @ManyToOne
-    @JoinColumn(name = "grupoProdutosId", nullable = false)
-    private GrupoProdutos grupoProdutosId;
+    @JoinColumn(name = "usuarioPrefeituraId", nullable = false)
+    private UsuarioPrefeitura usuarioPrefeituraId;
 
     @ManyToOne
-    @JoinColumn(name = "usuarioEmpresaId", nullable = false)
-    private UsuarioEmpresa usuarioEmpresaId;
+    @JoinColumn(name = "prefeituraId", nullable = false)
+    private Prefeitura prefeitura;
 
-    private boolean apareceEmDemandas;
+    @OneToMany(mappedBy = "produto")
+    private List<DemandaProduto> demandasProdutos = new ArrayList<>();
 
     private boolean ativo;
 
@@ -51,5 +49,4 @@ public class Produto {
 
     @Column(nullable = false)
     private LocalDateTime dataHoraAlteracao = LocalDateTime.now();
-
 }

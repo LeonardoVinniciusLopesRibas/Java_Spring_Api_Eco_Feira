@@ -1,4 +1,4 @@
-package br.com.estudo.calculos.api_eco_feira.model;
+package br.com.estudo.calculos.api_eco_feira.model.prefeitura;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -21,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class UsuarioEmpresa implements UserDetails {
+public class UsuarioPrefeitura implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,12 +40,6 @@ public class UsuarioEmpresa implements UserDetails {
     @JoinColumn(name = "perfilAcessoId", nullable = false)
     private PerfilAcesso perfilAcessoId;
 
-    @OneToMany(mappedBy = "usuarioEmpresa")
-    private List<UsuarioEmpresa_Empresa_Associados> usuarioEmpresa_empresa_associados = new ArrayList<>();
-
-    @OneToMany(mappedBy = "usuarioEmpresa")
-    private List<Produto> produtos = new ArrayList<>();
-
     private boolean ativo;
 
     @Column(nullable = false, updatable = false)
@@ -53,7 +47,6 @@ public class UsuarioEmpresa implements UserDetails {
 
     @Column(nullable = false)
     private LocalDateTime dataHoraAlteracao = LocalDateTime.now();
-
 
     //MÉTODOS AUTOMÁTICOS PARA VALIDAÇÃO DO SPRING
     @Override

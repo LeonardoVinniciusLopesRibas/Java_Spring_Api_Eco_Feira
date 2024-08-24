@@ -1,5 +1,6 @@
-package br.com.estudo.calculos.api_eco_feira.model;
+package br.com.estudo.calculos.api_eco_feira.model.produtor;
 
+import br.com.estudo.calculos.api_eco_feira.model.UsuarioSuporte;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

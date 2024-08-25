@@ -23,7 +23,7 @@ public class JwtServiceGenerator {
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("usuario", userDetails.getUsuario());
         extraClaims.put("id", userDetails.getId().toString());
-        extraClaims.put("perfil", userDetails.getPerfil());
+        extraClaims.put("perfil", "ADMIN");
 
 
         return Jwts

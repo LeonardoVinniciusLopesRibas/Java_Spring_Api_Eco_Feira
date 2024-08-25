@@ -1,6 +1,7 @@
 package br.com.estudo.calculos.api_eco_feira.model.produtor;
 
-import br.com.estudo.calculos.api_eco_feira.model.UsuarioSuporte;
+import br.com.estudo.calculos.api_eco_feira.model.Endereco;
+import br.com.estudo.calculos.api_eco_feira.model.prefeitura.Prefeitura;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -53,8 +54,8 @@ public class Empresa {
     @Column(nullable = true)
     private String logoUrl;
 
-    @OneToMany(mappedBy = "empresaProdutores", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<EnderecoProdutor> enderecoProdutores = new ArrayList<>();
+    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Endereco> enderecos = new ArrayList<>();
 
     private boolean ativo;
 
@@ -65,14 +66,8 @@ public class Empresa {
     private LocalDateTime dataHoraAlteracao = LocalDateTime.now();
 
     @ManyToOne
-    @JoinColumn(name = "usuarioSuporteId", nullable = false, updatable = false)
-    private UsuarioSuporte usuarioSuporteId;
-
-    @ManyToOne
-    @JoinColumn(name = "grupoEmpresaId", nullable = false)
+    @JoinColumn(name = "grupoEmpresa", nullable = false)
     private GrupoEmpresa grupoEmpresaId;
 
-    @OneToMany(mappedBy = "empresa")
-    private List<UsuarioEmpresa_Empresa_Associados> usuarioEmpresa_empresa_associados = new ArrayList<>();
 
 }

@@ -1,5 +1,8 @@
 package br.com.estudo.calculos.api_eco_feira.model.prefeitura;
 
+import br.com.estudo.calculos.api_eco_feira.model.Endereco;
+import br.com.estudo.calculos.api_eco_feira.model.central.Demanda;
+import br.com.estudo.calculos.api_eco_feira.model.central.Demanda_Produto_Associados;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -36,10 +39,13 @@ public class Prefeitura {
     @OneToMany(mappedBy = "prefeitura", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Contato> contatos;
 
+    @OneToMany(mappedBy = "prefeitura", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Endereco> enderecos = new ArrayList<>();
+
     @Column(nullable = true)
     private String logoUrl;
 
-    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<EnderecoPrefeitura> enderecoPrefeituras = new ArrayList<>();
+    @OneToMany(mappedBy = "prefeitura")
+    private List<Demanda> demandas;
 
 }

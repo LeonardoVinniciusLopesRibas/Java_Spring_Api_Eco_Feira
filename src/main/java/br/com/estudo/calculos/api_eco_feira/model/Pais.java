@@ -42,8 +42,4 @@ public class Pais {
     @Column(nullable = false)
     private LocalDateTime dataHoraAlteracao = LocalDateTime.now();
 
-    @ManyToOne
-    @JoinColumn(name = "usuarioSuporteId", nullable = false, updatable = false)
-    private UsuarioSuporte usuarioSuporteId;
-
 }

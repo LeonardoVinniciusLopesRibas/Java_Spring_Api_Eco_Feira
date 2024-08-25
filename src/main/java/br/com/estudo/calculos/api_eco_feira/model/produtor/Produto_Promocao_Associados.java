@@ -20,20 +20,16 @@ public class Produto_Promocao_Associados {
     private Long idProduto_Promocao_Associado;
 
     @ManyToOne
-    @JoinColumn(name = "usuarioEmpresaId", nullable = false)
-    private UsuarioEmpresa usuarioEmpresaId;
-
-    @ManyToOne
     @JoinColumn(name = "empresaId", nullable = false)
     private Empresa empresaId;
 
     @ManyToOne
-    @JoinColumn(name = "produtoId", nullable = false)
-    private Produto produtoId;
+    @JoinColumn(name = "produtoProdutorId", nullable = false)
+    private ProdutoProdutor produtoProdutor;
 
     @ManyToOne
     @JoinColumn(name = "promocaoId", nullable = false)
-    private Promocao promocaoId;
+    private Promocao promocao;
 
     @Column(nullable = false)
     private boolean ativo;

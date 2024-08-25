@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,26 +16,33 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Promocao {
+public class ProdutoProdutor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idPromocao;
+    private Long idProduto;
 
+    @NotNull(message = "O nome do produto é obrigatório")
     @Column(nullable = false)
-    @NotNull(message = "O desconto é obrigatório")
-    private double descontoPorcentagem;
+    private String nome;
 
+    @NotNull(message = "O valor de custo é obrigatório")
     @Column(nullable = false)
-    @NotNull(message = "A data de início da vigência é obrigatória")
-    private LocalDate dataInicio = LocalDate.now();
+    private double valorCusto;
 
+    @NotNull(message = "O valor de venda do produto é obrigatório")
     @Column(nullable = false)
-    @NotNull(message = "A data de fim da vigência é obrigatória")
-    private LocalDate dataFim;
+    private double valorVenda;
 
-    @OneToMany(mappedBy = "promocao", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToOne
+    @JoinColumn(name = "grupoProdutosId", nullable = false)
+    private GrupoProdutos grupoProdutos;
+
+
+    @OneToMany(mappedBy = "produtoProdutor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Produto_Promocao_Associados> produtoPromocaoAssociados = new ArrayList<>();
+
+    private boolean apareceEmDemandas;
 
     private boolean ativo;
 
@@ -45,5 +51,7 @@ public class Promocao {
 
     @Column(nullable = false)
     private LocalDateTime dataHoraAlteracao = LocalDateTime.now();
+
+
 
 }

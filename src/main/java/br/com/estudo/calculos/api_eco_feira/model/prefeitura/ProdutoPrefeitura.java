@@ -1,5 +1,6 @@
-package br.com.estudo.calculos.api_eco_feira.model;
+package br.com.estudo.calculos.api_eco_feira.model.prefeitura;
 
+import br.com.estudo.calculos.api_eco_feira.model.central.Demanda_Produto_Associados;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -16,27 +17,28 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Cidade {
+public class ProdutoPrefeitura {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCidade;
+    private Long idProduto;
 
+    @NotNull(message = "O nome do produto é obrigatório")
     @Column(nullable = false)
-    @NotNull(message = "O nome da cidade não pode estar vazio")
     private String nome;
 
+    @NotNull(message = "O valor para compra é obrigatório")
     @Column(nullable = false)
-    @NotNull(message = "O código do ibge é obrigatório")
-    private int ibge;
+    private double valorCompra;
 
-    //MUITAS CIDADES PARA UM ESTADO
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "estadoId", nullable = false)
-    private Estado estado;
+    @ManyToOne
+    @JoinColumn(name = "prefeituraId", nullable = false)
+    private Prefeitura prefeitura;
 
-    @OneToMany(mappedBy = "cidade", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Endereco> enderecos = new ArrayList<>();
+    @OneToMany(mappedBy = "produtoPrefeitura")
+    private List<Demanda_Produto_Associados> demandasProdutos = new ArrayList<>();
+
+
 
     private boolean ativo;
 
@@ -45,5 +47,4 @@ public class Cidade {
 
     @Column(nullable = false)
     private LocalDateTime dataHoraAlteracao = LocalDateTime.now();
-
 }

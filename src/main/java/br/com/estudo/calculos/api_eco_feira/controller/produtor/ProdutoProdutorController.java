@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/empresa")
+@RequestMapping("/api/produtoprodutor")
 @CrossOrigin("*")
-@Tag(name = "Empresa (Produtor Rural)", description = "URI expostos para a empresa")
-public class EmpresaController {
+@Tag(name = "Produto do Produtor", description = "URI expostos para os Produtos do Produtor")
+public class ProdutoProdutorController {
 }

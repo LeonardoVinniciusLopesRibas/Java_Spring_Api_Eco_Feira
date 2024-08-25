@@ -33,11 +33,11 @@ public class Estado {
     //MUITOS ESTADOS PARA UM PAÍS
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "paisId", nullable = false)
-    private Pais paisId;
+    private Pais pais;
 
     //UM ESTADO PARA MUITAS CIDADES
     @OneToMany(mappedBy = "estado", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Cidade> cidade = new ArrayList<>();
+    private List<Cidade> cidades = new ArrayList<>();
 
     private boolean ativo;
 
@@ -47,7 +47,4 @@ public class Estado {
     @Column(nullable = false)
     private LocalDateTime dataHoraAlteracao = LocalDateTime.now();
 
-    @ManyToOne
-    @JoinColumn(name = "usuarioSuporteId", nullable = false, updatable = false)
-    private UsuarioSuporte usuarioSuporteId;
 }

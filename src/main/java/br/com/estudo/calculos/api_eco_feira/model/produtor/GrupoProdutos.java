@@ -26,12 +26,8 @@ public class GrupoProdutos {
     @NotNull(message = "O nome do grupo é obrigatório")
     private String descricaoGrupo;
 
-    @ManyToOne
-    @JoinColumn(name = "usuarioEmpresaId", nullable = false)
-    private UsuarioEmpresa usuarioEmpresaId;
-
-    @OneToMany(mappedBy = "grupoProdutos")
-    private List<Produto> produtos = new ArrayList<>();
+    @OneToMany(mappedBy = "grupoProdutos", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProdutoProdutor> produtoProdutors;
 
     private boolean ativo;
 

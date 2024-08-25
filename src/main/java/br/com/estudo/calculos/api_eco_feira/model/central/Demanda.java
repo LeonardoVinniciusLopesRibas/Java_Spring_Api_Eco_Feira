@@ -28,8 +28,9 @@ public class Demanda {
     @JoinColumn(name = "prefeituraId", nullable = false)
     private Prefeitura prefeitura;
 
-    @OneToMany(mappedBy = "demanda", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DemandaProduto> demandasProdutos = new ArrayList<>();
+    @OneToMany(mappedBy = "demandas", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Demanda_Produto_Associados> demandasProdutos = new ArrayList<>();
+
 
     private boolean ativo;
 

@@ -1,6 +1,5 @@
 package br.com.estudo.calculos.api_eco_feira.model.prefeitura;
 
-import br.com.estudo.calculos.api_eco_feira.model.UsuarioSuporte;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -42,9 +41,5 @@ public class Contato {
 
     @Column(nullable = false)
     private LocalDateTime dataHoraAlteracao = LocalDateTime.now();
-
-    @ManyToOne
-    @JoinColumn(name = "usuarioSuporteId", nullable = false, updatable = false)
-    private UsuarioSuporte usuarioSuporteId;
 
 }

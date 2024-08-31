@@ -1,5 +1,7 @@
 package br.com.api_eco_feira.model.produtor;
 
+import br.com.api_eco_feira.auth.Usuario;
+import br.com.api_eco_feira.model.Cidade;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -27,6 +29,14 @@ public class GrupoProdutos {
     private String descricaoGrupo;
 
     private boolean ativo;
+
+    @ManyToOne
+    @JoinColumn(name = "empresaId", nullable = false)
+    private Empresa empresa;
+
+    @ManyToOne
+    @JoinColumn(name = "usuarioId", nullable = false)
+    private Usuario usuario;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime dataHoraCriacao = LocalDateTime.now();

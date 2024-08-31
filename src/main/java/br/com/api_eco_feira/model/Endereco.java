@@ -2,6 +2,7 @@ package br.com.api_eco_feira.model;
 
 import br.com.api_eco_feira.model.prefeitura.Prefeitura;
 import br.com.api_eco_feira.model.produtor.Empresa;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -36,17 +37,9 @@ public class Endereco {
     @NotNull(message = "O bairro é obrigatório")
     private String bairro;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "cidadeId", nullable = false)
     private Cidade cidade;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "empresaId")
-    private Empresa empresa;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "prefeituraId")
-    private Prefeitura prefeitura;
 
 
     private boolean ativo;

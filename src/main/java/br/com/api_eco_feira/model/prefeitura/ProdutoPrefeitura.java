@@ -35,10 +35,6 @@ public class ProdutoPrefeitura {
     @JoinColumn(name = "prefeituraId", nullable = false)
     private Prefeitura prefeitura;
 
-    @OneToMany(mappedBy = "produtoPrefeitura")
-    private List<Demanda_Produto_Associados> demandasProdutos = new ArrayList<>();
-
-
 
     private boolean ativo;
 

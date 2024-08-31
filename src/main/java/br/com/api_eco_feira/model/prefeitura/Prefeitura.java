@@ -4,6 +4,8 @@ import br.com.api_eco_feira.auth.Usuario;
 import br.com.api_eco_feira.model.Endereco;
 import br.com.api_eco_feira.model.central.Demanda;
 import br.com.api_eco_feira.model.central.Demanda_Produto_Associados;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -37,16 +39,8 @@ public class Prefeitura {
     @NotNull(message = "O cnpj é obrigatório")
     private String cnpj;
 
-    @OneToMany(mappedBy = "prefeitura", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Contato> contatos;
-
-    @OneToMany(mappedBy = "prefeitura", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Endereco> enderecos = new ArrayList<>();
-
-    @OneToMany(mappedBy = "prefeitura")
-    private List<Demanda> demandas;
-
-    @OneToMany(mappedBy = "prefeituraAssociation", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Usuario> usuario;
+    @ManyToOne
+    @JoinColumn(name = "enderecoId", nullable = false)
+    private Endereco endereco;
 
 }

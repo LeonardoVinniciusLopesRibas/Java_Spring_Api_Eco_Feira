@@ -1,5 +1,7 @@
 package br.com.api_eco_feira.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -31,13 +33,10 @@ public class Estado {
     private String sigla;
 
     //MUITOS ESTADOS PARA UM PAÍS
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "paisId", nullable = false)
+    @JsonBackReference
     private Pais pais;
-
-    //UM ESTADO PARA MUITAS CIDADES
-    @OneToMany(mappedBy = "estado", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Cidade> cidades = new ArrayList<>();
 
     private boolean ativo;
 

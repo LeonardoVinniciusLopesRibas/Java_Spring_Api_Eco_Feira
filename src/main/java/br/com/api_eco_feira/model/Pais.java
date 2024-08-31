@@ -1,5 +1,6 @@
 package br.com.api_eco_feira.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -29,10 +30,6 @@ public class Pais {
     @Column(nullable = false)
     @NotNull(message = "A sigla do país é obrigatória")
     private String sigla;
-
-    //UM PAIS PARA MUITOS ESTADOS
-    @OneToMany(mappedBy = "pais", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Estado> estados = new ArrayList<>();
 
     private boolean ativo;
 

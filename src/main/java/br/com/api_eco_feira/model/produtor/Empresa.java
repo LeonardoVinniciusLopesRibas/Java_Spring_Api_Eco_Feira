@@ -3,6 +3,8 @@ package br.com.api_eco_feira.model.produtor;
 import br.com.api_eco_feira.auth.Usuario;
 import br.com.api_eco_feira.model.Endereco;
 import br.com.api_eco_feira.model.prefeitura.Prefeitura;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -52,14 +54,10 @@ public class Empresa {
     @Column(length = 500)
     private String descricao;
 
-    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Endereco> enderecos = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "enderecoId", nullable = false)
+    private Endereco endereco;
 
-    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProdutoProdutor> produtoProdutor = new ArrayList<>();
-
-    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Promocao> promocoes = new ArrayList<>();
 
     private boolean ativo;
 
@@ -69,8 +67,6 @@ public class Empresa {
     @Column(nullable = false)
     private LocalDateTime dataHoraAlteracao = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "empresaAssociation", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Usuario> usuario;
 
 
 }

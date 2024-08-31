@@ -26,9 +26,6 @@ public class GrupoProdutos {
     @NotNull(message = "O nome do grupo é obrigatório")
     private String descricaoGrupo;
 
-    @OneToMany(mappedBy = "grupoProdutos", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProdutoProdutor> produtoProdutors;
-
     private boolean ativo;
 
     @Column(nullable = false, updatable = false)

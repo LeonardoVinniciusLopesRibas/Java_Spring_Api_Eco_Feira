@@ -1,5 +1,7 @@
 package br.com.api_eco_feira.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -30,13 +32,9 @@ public class Cidade {
     @NotNull(message = "O código do ibge é obrigatório")
     private int ibge;
 
-    //MUITAS CIDADES PARA UM ESTADO
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "estadoId", nullable = false)
     private Estado estado;
-
-    @OneToMany(mappedBy = "cidade", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Endereco> enderecos = new ArrayList<>();
 
     private boolean ativo;
 

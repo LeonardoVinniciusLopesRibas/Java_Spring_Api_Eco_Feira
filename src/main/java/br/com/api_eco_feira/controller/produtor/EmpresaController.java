@@ -10,4 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin("*")
 @Tag(name = "Empresa (Produtor Rural)", description = "URI expostos para a empresa")
 public class EmpresaController {
+
+
+
 }

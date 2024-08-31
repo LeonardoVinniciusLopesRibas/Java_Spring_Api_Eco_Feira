@@ -43,9 +43,6 @@ public class Prefeitura {
     @OneToMany(mappedBy = "prefeitura", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Endereco> enderecos = new ArrayList<>();
 
-    @Column(nullable = true)
-    private String logoUrl;
-
     @OneToMany(mappedBy = "prefeitura")
     private List<Demanda> demandas;
 

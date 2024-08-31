@@ -52,11 +52,14 @@ public class Empresa {
     @Column(length = 500)
     private String descricao;
 
-    @Column(nullable = true)
-    private String logoUrl;
-
     @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Endereco> enderecos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProdutoProdutor> produtoProdutor = new ArrayList<>();
+
+    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Promocao> promocoes = new ArrayList<>();
 
     private boolean ativo;
 
@@ -65,10 +68,6 @@ public class Empresa {
 
     @Column(nullable = false)
     private LocalDateTime dataHoraAlteracao = LocalDateTime.now();
-
-    @ManyToOne
-    @JoinColumn(name = "grupoEmpresa", nullable = false)
-    private GrupoEmpresa grupoEmpresaId;
 
     @OneToMany(mappedBy = "empresaAssociation", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Usuario> usuario;

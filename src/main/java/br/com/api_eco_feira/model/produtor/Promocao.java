@@ -38,6 +38,10 @@ public class Promocao {
     @OneToMany(mappedBy = "promocao", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Produto_Promocao_Associados> produtoPromocaoAssociados = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "empresaId", nullable = false)
+    private Empresa empresa;
+
     private boolean ativo;
 
     @Column(nullable = false, updatable = false)

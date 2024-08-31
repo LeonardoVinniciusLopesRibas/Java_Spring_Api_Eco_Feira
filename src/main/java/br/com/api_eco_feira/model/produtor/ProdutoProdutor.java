@@ -38,6 +38,9 @@ public class ProdutoProdutor {
     @JoinColumn(name = "grupoProdutosId", nullable = false)
     private GrupoProdutos grupoProdutos;
 
+    @ManyToOne
+    @JoinColumn(name = "empresaId", nullable = false)
+    private Empresa empresa;
 
     @OneToMany(mappedBy = "produtoProdutor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Produto_Promocao_Associados> produtoPromocaoAssociados = new ArrayList<>();

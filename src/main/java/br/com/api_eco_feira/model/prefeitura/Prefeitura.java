@@ -1,5 +1,6 @@
 package br.com.api_eco_feira.model.prefeitura;
 
+import br.com.api_eco_feira.auth.Usuario;
 import br.com.api_eco_feira.model.Endereco;
 import br.com.api_eco_feira.model.central.Demanda;
 import br.com.api_eco_feira.model.central.Demanda_Produto_Associados;
@@ -47,5 +48,8 @@ public class Prefeitura {
 
     @OneToMany(mappedBy = "prefeitura")
     private List<Demanda> demandas;
+
+    @OneToMany(mappedBy = "prefeituraAssociation", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Usuario> usuario;
 
 }

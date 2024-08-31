@@ -1,5 +1,8 @@
 package br.com.api_eco_feira.auth;
 
+import br.com.api_eco_feira.model.prefeitura.Prefeitura;
+import br.com.api_eco_feira.model.produtor.Empresa;
+import br.com.api_eco_feira.model.produtor.Promocao;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -32,6 +35,14 @@ public class Usuario implements UserDetails {
     private boolean suporte;
     private boolean produtor;
     private boolean prefeitura;
+
+    @ManyToOne
+    @JoinColumn(name = "empresaId")
+    private Empresa empresaAssociation;
+
+    @ManyToOne
+    @JoinColumn(name = "prefeituraId")
+    private Prefeitura prefeituraAssociation;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

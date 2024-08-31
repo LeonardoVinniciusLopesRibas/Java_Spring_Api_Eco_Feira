@@ -1,5 +1,6 @@
 package br.com.api_eco_feira.model.produtor;
 
+import br.com.api_eco_feira.auth.Usuario;
 import br.com.api_eco_feira.model.Endereco;
 import br.com.api_eco_feira.model.prefeitura.Prefeitura;
 import jakarta.persistence.*;
@@ -68,6 +69,9 @@ public class Empresa {
     @ManyToOne
     @JoinColumn(name = "grupoEmpresa", nullable = false)
     private GrupoEmpresa grupoEmpresaId;
+
+    @OneToMany(mappedBy = "empresaAssociation", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Usuario> usuario;
 
 
 }

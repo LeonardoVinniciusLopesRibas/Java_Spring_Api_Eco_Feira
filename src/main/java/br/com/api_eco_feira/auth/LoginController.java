@@ -25,23 +25,22 @@ public class LoginController {
     @Operation(summary = "Realiza o login do usuário", description = "Autentica o usuário com base nas credenciais fornecidas.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Login realizado com sucesso",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = LoginResponse.class))),
             @ApiResponse(responseCode = "401", description = "Autenticação falhou. Credenciais inválidas.",
                     content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "400", description = "Erro na requisição. Verifique os dados enviados.",
                     content = @Content(mediaType = "application/json"))
     })
-    @Tag(name = "Método de logar", description = "Descrição de URI para logar")
-    public ResponseEntity<String> logar(@RequestBody LoginRequestDto loginRequestDto) {
+    public ResponseEntity<LoginResponse> logar(@RequestBody LoginRequestDto loginRequestDto) {
         try {
-            return ResponseEntity.ok(loginService.logar(loginRequestDto));
-        }catch(AuthenticationException ex) {
+            LoginResponse response = loginService.logar(loginRequestDto);
+            return ResponseEntity.ok(response);
+        } catch (AuthenticationException ex) {
             System.out.println(ex.getMessage());
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
-
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/usuario/controlador")
 @CrossOrigin("*")
-@Tag(name = "Estado", description = "URI expostos para os estados do endereço")
+@Tag(name = "Usuário", description = "URI expostos para as buscas de usuários")
 public class UsuarioController {
 
     @Autowired

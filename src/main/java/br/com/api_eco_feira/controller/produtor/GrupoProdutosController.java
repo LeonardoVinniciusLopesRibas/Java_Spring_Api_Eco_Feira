@@ -62,4 +62,28 @@ public class GrupoProdutosController {
         return ResponseEntity.ok(grupoProdutosResponses);
     }
 
+    @DeleteMapping("/delete/{id}")
+    @Operation(summary = "Deletar um Grupo de Produto",
+            description = "Realiza a busca e deleta o grupo de produto.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Grupo deletado com sucesso",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "400", description = "Existem produtos vinculados a esse grupo",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "Não encontrado grupos com o código informado",
+                    content = @Content(mediaType = "application/json"))
+    })
+    public ResponseEntity<String> delete(@PathVariable Long id){
+        String resposta = grupoProdutosService.delete(id);
+
+        if(resposta.startsWith("Existem")){
+            return ResponseEntity.badRequest().body(resposta);
+        }
+        if(resposta.startsWith("Não")){
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(resposta);
+    }
+
 }

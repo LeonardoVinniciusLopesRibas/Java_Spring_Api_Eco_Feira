@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +27,8 @@ public class GrupoProdutosService {
     private EmpresaService empresaService;
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
+    private ProdutoProdutorService produtoProdutorService;
 
     public String novoGrupo(GrupoProdutosRequest grupoProdutosRequest) {
 
@@ -56,6 +60,7 @@ public class GrupoProdutosService {
         List<GrupoProdutos> grupoProdutos = grupoProdutosRepository.findAll(sort);
         String lowerCaseQuery = query.toLowerCase();
 
+
         return grupoProdutos.stream()
                 .filter(grupoProdutos1 -> {
                     boolean matches = grupoProdutos1.getDescricaoGrupo().toLowerCase().contains(lowerCaseQuery) ||
@@ -68,5 +73,27 @@ public class GrupoProdutosService {
                         grupoProdutos1.getUsuario().getUsuario()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    public GrupoProdutos getById(Long id) {
+        Optional<GrupoProdutos> grupoProdutos = grupoProdutosRepository.findById(id);
+        return grupoProdutos.orElse(null);
+    }
+
+    public String delete(Long id) {
+
+        boolean tem = produtoProdutorService.temProdutoNoGrupo(id);
+        if (tem) {
+            return "Existem produtos vinculados a esse grupo com código: " + id;
+        }
+
+        GrupoProdutos grupoProdutos = getById(id);
+        if (grupoProdutos == null) {
+            return "Não";
+        }
+
+        grupoProdutosRepository.deleteById(id);
+        return "Grupo deletado com sucesso";
+
     }
 }

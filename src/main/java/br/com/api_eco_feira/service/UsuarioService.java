@@ -15,4 +15,14 @@ public class UsuarioService {
     public Usuario getId(Long empresaId) {
         return usuarioRepository.findById(empresaId).orElse(null);
     }
+
+    public String post(Usuario usuario) {
+        try{
+            usuarioRepository.save(usuario);
+            return "Sucesso ao cadastrar usuário";
+        }catch (Exception e){
+            return "Erro ao cadastrar usuario";
+        }
+
+    }
 }

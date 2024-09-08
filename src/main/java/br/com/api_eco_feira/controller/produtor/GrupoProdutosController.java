@@ -1,6 +1,7 @@
 package br.com.api_eco_feira.controller.produtor;
 
 import br.com.api_eco_feira.auth.LoginResponse;
+import br.com.api_eco_feira.dto.GrupoProdutoResponseUnique;
 import br.com.api_eco_feira.dto.GrupoProdutosRequest;
 import br.com.api_eco_feira.dto.GrupoProdutosResponse;
 import br.com.api_eco_feira.model.produtor.GrupoProdutos;
@@ -85,5 +86,41 @@ public class GrupoProdutosController {
 
         return ResponseEntity.ok(resposta);
     }
+
+    @GetMapping("/get/{id}")
+    @Operation(summary = "Buscar um produto pelo ID", description = "Realiza a busca de um produto pelo ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Grupo encontrado pelo ID",
+            content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "Não encontrado grupos com o código informado",
+                    content = @Content(mediaType = "application/json"))
+    })
+    public ResponseEntity<GrupoProdutoResponseUnique> getId(@PathVariable Long id){
+        GrupoProdutos grupoProdutos = grupoProdutosService.getById(id);
+        GrupoProdutoResponseUnique grupoProdutosResponseUnique = new GrupoProdutoResponseUnique();
+        grupoProdutosResponseUnique.setDescricaoGrupoProduto(grupoProdutos.getDescricaoGrupo());
+        grupoProdutosResponseUnique.setIdGrupoProduto(grupoProdutos.getIdGrupo());
+        if (grupoProdutos == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(grupoProdutosResponseUnique);
+    }
+    @PutMapping("/put/{id}")
+    @Operation(summary = "Atualizar uma categoria pelo id", description = "Realiza a atualização de categoria pelo id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Categoria atualizada com sucesso",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "400", description = "Ocorreu um erro ao atualizar a categoria",
+                    content = @Content(mediaType = "application/json"))
+    })
+    public ResponseEntity<String> putId(@PathVariable Long id, @RequestBody GrupoProdutosRequest grupoProdutosRequest){
+
+        String retorno = grupoProdutosService.putGrupo(grupoProdutosRequest, id);
+        if (retorno.startsWith("Erro")) {
+            return ResponseEntity.badRequest().body(retorno);
+        }
+        return ResponseEntity.ok(retorno);
+    }
+
 
 }

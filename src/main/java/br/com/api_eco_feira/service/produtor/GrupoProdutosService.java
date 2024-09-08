@@ -96,4 +96,18 @@ public class GrupoProdutosService {
         return "Grupo deletado com sucesso";
 
     }
+
+    public String putGrupo(GrupoProdutosRequest grupoProdutosRequest, Long id) {
+        try{
+            GrupoProdutos grupoProdutos = new GrupoProdutos();
+            grupoProdutos.setIdGrupo(id);
+            grupoProdutos.setDescricaoGrupo(grupoProdutosRequest.getDescricaoGrupo());
+            grupoProdutos.setUsuario(usuarioService.getId(grupoProdutosRequest.getUsuarioId()));
+            grupoProdutos.setEmpresa(empresaService.getId(grupoProdutosRequest.getEmpresaId()));
+            grupoProdutosRepository.save(grupoProdutos);
+            return "Grupo atualizado com sucesso";
+        }catch (Exception e){
+            return "Erro ao atualizar grupo: " + grupoProdutosRequest.getDescricaoGrupo();
+        }
+    }
 }

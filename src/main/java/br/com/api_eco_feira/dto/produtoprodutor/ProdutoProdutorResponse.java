@@ -1,4 +1,4 @@
-package br.com.api_eco_feira.dto;
+package br.com.api_eco_feira.dto.produtoprodutor;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,14 +9,14 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProdutoProdutorRequest {
+public class ProdutoProdutorResponse {
 
+    private Long idProduto;
     private String nome;
     private double valorCusto;
     private double valorVenda;
-    private Long grupoProdutos;
-    private Long idEmpresa;
+    private String grupoProdutos;
     private boolean apareceEmDemandas;
-    private boolean ativo;
+
 
 }

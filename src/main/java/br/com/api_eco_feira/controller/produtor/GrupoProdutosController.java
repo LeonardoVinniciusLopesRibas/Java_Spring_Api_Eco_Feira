@@ -1,9 +1,8 @@
 package br.com.api_eco_feira.controller.produtor;
 
-import br.com.api_eco_feira.auth.LoginResponse;
-import br.com.api_eco_feira.dto.GrupoProdutoResponseUnique;
-import br.com.api_eco_feira.dto.GrupoProdutosRequest;
-import br.com.api_eco_feira.dto.GrupoProdutosResponse;
+import br.com.api_eco_feira.dto.grupoprodutos.GrupoProdutoResponseUnique;
+import br.com.api_eco_feira.dto.grupoprodutos.GrupoProdutosRequest;
+import br.com.api_eco_feira.dto.grupoprodutos.GrupoProdutosResponse;
 import br.com.api_eco_feira.model.produtor.GrupoProdutos;
 import br.com.api_eco_feira.service.produtor.GrupoProdutosService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -54,8 +53,8 @@ public class GrupoProdutosController {
             @ApiResponse(responseCode = "404", description = "Não foram encontrados grupos",
                     content = @Content(mediaType = "application/json"))
     })
-    public ResponseEntity<List<GrupoProdutosResponse>> get(@RequestParam String query){
-        List<GrupoProdutosResponse> grupoProdutosResponses = grupoProdutosService.get(query);
+    public ResponseEntity<List<GrupoProdutosResponse>> get(@RequestParam String query, @RequestParam String cnpj){
+        List<GrupoProdutosResponse> grupoProdutosResponses = grupoProdutosService.get(query, cnpj);
 
         if (grupoProdutosResponses.isEmpty()) {
             return ResponseEntity.notFound().build();

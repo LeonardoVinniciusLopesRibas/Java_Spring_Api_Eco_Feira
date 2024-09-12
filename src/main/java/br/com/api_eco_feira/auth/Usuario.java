@@ -2,7 +2,6 @@ package br.com.api_eco_feira.auth;
 
 import br.com.api_eco_feira.model.prefeitura.Prefeitura;
 import br.com.api_eco_feira.model.produtor.Empresa;
-import br.com.api_eco_feira.model.produtor.Promocao;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

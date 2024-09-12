@@ -1,4 +1,4 @@
-package br.com.api_eco_feira.dto;
+package br.com.api_eco_feira.dto.grupoprodutos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

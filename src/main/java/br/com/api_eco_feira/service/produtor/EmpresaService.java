@@ -17,4 +17,8 @@ public class EmpresaService {
     public Empresa getId(Long empresaId) {
         return empresaRepository.findById(empresaId).orElse(null);
     }
+
+    public boolean getCnpj(String cnpj){
+        return empresaRepository.existsByCnpj(cnpj);
+    }
 }

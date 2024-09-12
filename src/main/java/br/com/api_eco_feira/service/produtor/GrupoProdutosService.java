@@ -1,9 +1,8 @@
 package br.com.api_eco_feira.service.produtor;
 
 import br.com.api_eco_feira.auth.Usuario;
-import br.com.api_eco_feira.controller.produtor.EmpresaController;
-import br.com.api_eco_feira.dto.GrupoProdutosRequest;
-import br.com.api_eco_feira.dto.GrupoProdutosResponse;
+import br.com.api_eco_feira.dto.grupoprodutos.GrupoProdutosRequest;
+import br.com.api_eco_feira.dto.grupoprodutos.GrupoProdutosResponse;
 import br.com.api_eco_feira.model.produtor.Empresa;
 import br.com.api_eco_feira.model.produtor.GrupoProdutos;
 import br.com.api_eco_feira.repository.produtor.GrupoProdutosRepository;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -55,16 +53,18 @@ public class GrupoProdutosService {
         }
     }
 
-    public List<GrupoProdutosResponse> get(String query) {
+    public List<GrupoProdutosResponse> get(String query, String cnpj) {
         Sort sort = Sort.by(Sort.Direction.ASC, "descricaoGrupo");
         List<GrupoProdutos> grupoProdutos = grupoProdutosRepository.findAll(sort);
         String lowerCaseQuery = query.toLowerCase();
+        String lowerCaseCnpj = cnpj.toLowerCase();
 
 
         return grupoProdutos.stream()
                 .filter(grupoProdutos1 -> {
-                    boolean matches = grupoProdutos1.getDescricaoGrupo().toLowerCase().contains(lowerCaseQuery) ||
-                            grupoProdutos1.getUsuario().getUsuario().toLowerCase().contains(lowerCaseQuery);
+                    boolean matches = (grupoProdutos1.getDescricaoGrupo().toLowerCase().contains(lowerCaseQuery) ||
+                            grupoProdutos1.getUsuario().getUsuario().toLowerCase().contains(lowerCaseQuery)) &&
+                            grupoProdutos1.getEmpresa().getCnpj().toLowerCase().contains(lowerCaseCnpj);
                     return matches;
                 })
                 .map(grupoProdutos1 -> new GrupoProdutosResponse(

@@ -13,4 +13,6 @@ public interface ProdutoProdutorRepository extends JpaRepository<ProdutoProdutor
     boolean existsByGrupoProdutos_IdGrupo(Long id);
 
     List<ProdutoProdutor> findProdutoProdutorByAtivoTrue(Sort sort);
+
+    List<ProdutoProdutor> findProdutoProdutorByAtivoFalse(Sort sort);
 }

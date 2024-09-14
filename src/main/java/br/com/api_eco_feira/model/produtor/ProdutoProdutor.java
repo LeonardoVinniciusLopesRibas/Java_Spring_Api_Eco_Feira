@@ -2,14 +2,13 @@ package br.com.api_eco_feira.model.produtor;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -27,12 +26,14 @@ public class ProdutoProdutor {
     private String nome;
 
     @NotNull(message = "O valor de custo é obrigatório")
+    @Positive(message = "O valor de custo deve ser maior que zero")
     @Column(nullable = false)
-    private double valorCusto;
+    private Double valorCusto;
 
     @NotNull(message = "O valor de venda do produto é obrigatório")
+    @Positive(message = "O valor de venda deve ser maior que zero")
     @Column(nullable = false)
-    private double valorVenda;
+    private Double valorVenda;
 
     @ManyToOne
     @JoinColumn(name = "grupoProdutosId", nullable = false)
@@ -51,7 +52,4 @@ public class ProdutoProdutor {
 
     @Column(nullable = false)
     private LocalDateTime dataHoraAlteracao = LocalDateTime.now();
-
-
-
 }

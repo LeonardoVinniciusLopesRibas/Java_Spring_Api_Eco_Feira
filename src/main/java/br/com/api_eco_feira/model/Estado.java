@@ -35,7 +35,6 @@ public class Estado {
     //MUITOS ESTADOS PARA UM PAÍS
     @ManyToOne
     @JoinColumn(name = "paisId", nullable = false)
-    @JsonBackReference
     private Pais pais;
 
     private boolean ativo;

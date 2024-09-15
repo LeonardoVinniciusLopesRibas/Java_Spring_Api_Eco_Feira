@@ -21,4 +21,14 @@ public class EmpresaService {
     public boolean getCnpj(String cnpj){
         return empresaRepository.existsByCnpj(cnpj);
     }
+
+    public String put(Empresa empresa) {
+        try{
+            empresaRepository.save(empresa);
+            return "Empresa atualizada com sucesso";
+        }
+        catch(Exception e){
+            return "Erro ao atualizar empresa";
+        }
+    }
 }

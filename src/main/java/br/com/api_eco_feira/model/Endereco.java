@@ -33,6 +33,9 @@ public class Endereco {
 
     private String complemento;
 
+    @Column(nullable = false, length = 8)
+    private String cep;
+
     @Column(nullable = false)
     @NotNull(message = "O bairro é obrigatório")
     private String bairro;

@@ -89,7 +89,6 @@ public class ProdutoProdutorService {
 
     public String put(ProdutoProdutor produtoProdutor, Long id) {
         try{
-            produtoProdutor.setIdProduto(id);
             produtoProdutorRepository.save(produtoProdutor);
             return "Produto salvo com sucesso!";
         }

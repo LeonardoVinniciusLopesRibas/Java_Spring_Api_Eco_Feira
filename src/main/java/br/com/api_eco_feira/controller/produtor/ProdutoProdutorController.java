@@ -141,18 +141,19 @@ public class ProdutoProdutorController {
                     content = @Content(mediaType = "application/json"))
     })
     public ResponseEntity<String> putId(@PathVariable Long id, @RequestBody @Valid ProdutoProdutorRequest produtoProdutorRequest){
-        ProdutoProdutor produtoProdutor = new ProdutoProdutor();
-        produtoProdutor.setGrupoProdutos(grupoProdutosService.getById(produtoProdutorRequest.getGrupoProdutos()));
-        produtoProdutor.setAtivo(true);
-        produtoProdutor.setNome(produtoProdutorRequest.getNome());
-        produtoProdutor.setValorVenda(produtoProdutorRequest.getValorVenda());
-        produtoProdutor.setValorCusto(produtoProdutorRequest.getValorCusto());
-        produtoProdutor.setIdProduto(id);
-        produtoProdutor.setApareceEmDemandas(produtoProdutorRequest.isApareceEmDemandas());
-        produtoProdutor.setEmpresa(empresaService.getId(produtoProdutorRequest.getIdEmpresa()));
+
+        ProdutoProdutor retornadoDoBanco = produtoProdutorService.getId(id);
+        retornadoDoBanco.setGrupoProdutos(grupoProdutosService.getById(produtoProdutorRequest.getGrupoProdutos()));
+        retornadoDoBanco.setAtivo(true);
+        retornadoDoBanco.setNome(produtoProdutorRequest.getNome());
+        retornadoDoBanco.setValorVenda(produtoProdutorRequest.getValorVenda());
+        retornadoDoBanco.setValorCusto(produtoProdutorRequest.getValorCusto());
+        retornadoDoBanco.setIdProduto(id);
+        retornadoDoBanco.setApareceEmDemandas(produtoProdutorRequest.isApareceEmDemandas());
+        retornadoDoBanco.setEmpresa(empresaService.getId(produtoProdutorRequest.getIdEmpresa()));
 
 
-        String retorno = produtoProdutorService.put(produtoProdutor, id);
+        String retorno = produtoProdutorService.put(retornadoDoBanco, id);
         if (retorno.startsWith("Erro")) {
             return ResponseEntity.badRequest().body(retorno);
         }

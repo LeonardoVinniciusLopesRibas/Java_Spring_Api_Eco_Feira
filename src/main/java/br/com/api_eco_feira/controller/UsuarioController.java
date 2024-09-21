@@ -2,9 +2,11 @@ package br.com.api_eco_feira.controller;
 
 import br.com.api_eco_feira.auth.Usuario;
 import br.com.api_eco_feira.model.Aceite;
+import br.com.api_eco_feira.model.prefeitura.Prefeitura;
 import br.com.api_eco_feira.model.produtor.Empresa;
 import br.com.api_eco_feira.service.AceiteService;
 import br.com.api_eco_feira.service.UsuarioService;
+import br.com.api_eco_feira.service.prefeitura.PrefeituraService;
 import br.com.api_eco_feira.service.produtor.EmpresaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -30,6 +32,9 @@ public class UsuarioController {
 
     @Autowired
     private EmpresaService empresaService;
+
+    @Autowired
+    private PrefeituraService prefeituraService;
 
     @GetMapping("/get/{id}")
     @Operation(summary = "Busca de usuários",
@@ -80,6 +85,46 @@ public class UsuarioController {
         usuario.setPrefeitura(false);
         usuario.setEmpresaAssociation(empresa);
         usuario.setPrefeituraAssociation(null);
+        usuario.setUsuario(aceite.getEmail());
+        usuario.setSenha(aceite.getSenha());
+        String retorno = usuarioService.post(usuario);
+
+        if(retorno.startsWith("Erro")){
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(retorno);
+    }
+
+    @PostMapping("/postPrefeitura/{id}")
+    @Operation(summary = "Cadastra um usuário",
+            description = "Realiza o cadastro de um novo usuário.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuário cadastrado com sucesso",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "400", description = "Ocorreu um erro ao cadastrar usuário",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "Não encontrado aceites com id informado",
+                    content = @Content(mediaType = "application/json"))
+    })
+    public ResponseEntity<String> postPrefeitura(@PathVariable Long id, @RequestBody Long idPrefeitura) {
+        Aceite aceite = aceiteService.getId(id);
+        if(aceite == null){
+            return ResponseEntity.notFound().build();
+        }
+
+        Prefeitura prefeitura = prefeituraService.getId(idPrefeitura);
+        if(prefeitura == null){
+            return ResponseEntity.notFound().build();
+        }
+
+        Usuario usuario = new Usuario();
+        usuario.setId(aceite.getId());
+        usuario.setPerfil("admin");
+        usuario.setProdutor(false);
+        usuario.setSuporte(false);
+        usuario.setPrefeitura(true);
+        usuario.setEmpresaAssociation(null);
+        usuario.setPrefeituraAssociation(prefeitura);
         usuario.setUsuario(aceite.getEmail());
         usuario.setSenha(aceite.getSenha());
         String retorno = usuarioService.post(usuario);

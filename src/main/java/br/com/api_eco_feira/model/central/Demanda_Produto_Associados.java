@@ -1,5 +1,6 @@
 package br.com.api_eco_feira.model.central;
 
+import br.com.api_eco_feira.model.prefeitura.Prefeitura;
 import br.com.api_eco_feira.model.prefeitura.ProdutoPrefeitura;
 import br.com.api_eco_feira.model.produtor.Empresa;
 import br.com.api_eco_feira.model.produtor.ProdutoProdutor;
@@ -31,8 +32,8 @@ public class Demanda_Produto_Associados {
     private ProdutoPrefeitura produtoPrefeitura;
 
     @ManyToOne
-    @JoinColumn(name = "produtorId", nullable = true)
-    private Empresa produtor;
+    @JoinColumn(name = "prefeituraId", nullable = true)
+    private Prefeitura prefeitura;
 
     private int quantidade;
 

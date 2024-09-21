@@ -24,7 +24,7 @@ public class AceiteService {
     private PasswordEncoder passwordEncoder;
 
     public String post(Aceite aceite) {
-        if (!validaCnpjExisteNaBase(aceite.getCnpj())) {
+        if (validaCnpjExisteNaBase(aceite.getCnpj())) {
             return "Erro: CNPJ não existente na base de dados.";
         }
 

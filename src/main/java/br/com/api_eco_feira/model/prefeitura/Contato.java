@@ -41,5 +41,6 @@ public class Contato {
 
     @Column(nullable = false)
     private LocalDateTime dataHoraAlteracao = LocalDateTime.now();
-
 }
+
+//

@@ -19,4 +19,13 @@ public class PrefeituraService {
         return prefeituraRepository.existsByCnpj(cnpj);
     }
 
+    public String put(Prefeitura prefeitura) {
+        try{
+            prefeituraRepository.save(prefeitura);
+            return "Prefeitura atualizada com sucesso";
+        }
+        catch (Exception e){
+            return "Erro ao atualizar prefeitura";
+        }
+    }
 }

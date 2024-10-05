@@ -37,7 +37,7 @@ public class Demanda_Produto_Associados {
 
     private int quantidade;
 
-    private boolean atendido = false;
+    //private boolean atendido = false;
 
-    private LocalDateTime dataAtendimento;
+    //private LocalDateTime dataAtendimento;
 }

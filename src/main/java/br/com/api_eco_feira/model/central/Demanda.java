@@ -10,8 +10,6 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -36,8 +34,8 @@ public class Demanda {
     @Column(nullable = false)
     private double valorTotalPrefeitura;
 
-    @Column(nullable = false)
-    private double valorTotalProdutor;
+    //@Column(nullable = false)
+    //private double valorTotalProdutor;
 
     @Column(nullable = false)
     private LocalDate prazoMaximo;

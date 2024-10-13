@@ -1,6 +1,7 @@
 package br.com.api_eco_feira.controller.central;
 
 import br.com.api_eco_feira.dto.demanda.DemandaDtoRequest;
+import br.com.api_eco_feira.dto.demanda.DemandaDtoResponse;
 import br.com.api_eco_feira.enumerador.StatusDemanda;
 import br.com.api_eco_feira.model.central.Demanda;
 import br.com.api_eco_feira.model.prefeitura.Prefeitura;
@@ -11,9 +12,12 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/demanda")
@@ -27,7 +31,7 @@ public class DemandaController {
     @Autowired
     private PrefeituraService prefeituraService;
 
-    @PostMapping("/nova")
+    @PostMapping("/new")
     @Operation(summary = "uri para nova demanda",
             description = "essa uri serve para dar post em uma demanda.")
     @ApiResponses(value = {
@@ -42,6 +46,7 @@ public class DemandaController {
         demanda.setStatusDemanda(StatusDemanda.ABERTA);
         demanda.setAtivo(true);
         demanda.setPrefeitura(prefeitura);
+        demanda.setDescricao(ddr.getDescricao());
         demanda.setPrazoMaximo(ddr.getPrazoMaximo());
         demanda.setValorTotalPrefeitura(ddr.getValorTotalPrefeitura());
         String retorno = demandaService.novaDemanda(demanda);
@@ -49,6 +54,22 @@ public class DemandaController {
             return ResponseEntity.badRequest().body(retorno);
         }
         return ResponseEntity.ok(retorno);
+    }
+
+    @GetMapping("/get")
+    @Operation(summary = "uri para pegar as demandas",
+            description = "essa uri serve para pegar as demandas.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Demandas recuperadas com sucesso",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "400", description = "Ocorreu um erro ao recuperas as demanda",
+                    content = @Content(mediaType = "application/json"))
+    })
+    public ResponseEntity<List<DemandaDtoResponse>> get(@RequestParam Long idPrefeitura){
+        Prefeitura prefeitura = prefeituraService.getId(idPrefeitura);
+        List<DemandaDtoResponse> ddr = demandaService.get(prefeitura);
+
+        return ResponseEntity.ok(ddr);
     }
 
 

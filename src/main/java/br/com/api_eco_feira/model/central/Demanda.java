@@ -22,6 +22,9 @@ public class Demanda {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idDemanda;
 
+    @Column(nullable = false)
+    private String descricao;
+
     @ManyToOne
     @JoinColumn(name = "prefeituraId", nullable = false)
     private Prefeitura prefeitura;
@@ -33,9 +36,6 @@ public class Demanda {
 
     @Column(nullable = false)
     private double valorTotalPrefeitura;
-
-    //@Column(nullable = false)
-    //private double valorTotalProdutor;
 
     @Column(nullable = false)
     private LocalDate prazoMaximo;

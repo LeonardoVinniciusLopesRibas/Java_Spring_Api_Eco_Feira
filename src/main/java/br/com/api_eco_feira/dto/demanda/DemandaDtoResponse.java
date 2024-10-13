@@ -1,5 +1,6 @@
 package br.com.api_eco_feira.dto.demanda;
 
+import br.com.api_eco_feira.enumerador.StatusDemanda;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,11 +12,12 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DemandaDtoRequest {
+public class DemandaDtoResponse {
 
-    private Long idPrefeitura;
+    private Long idDemanda;
     private String descricao;
     private double valorTotalPrefeitura;
     private LocalDate prazoMaximo;
+    private StatusDemanda statusDemanda;
 
 }

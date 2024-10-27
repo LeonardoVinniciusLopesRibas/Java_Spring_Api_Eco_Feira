@@ -1,5 +1,6 @@
 package br.com.api_eco_feira.controller.central;
 
+import br.com.api_eco_feira.dto.demandaprodutosassociados.DemandaProdutoResponse;
 import br.com.api_eco_feira.dto.demandaprodutosassociados.DemandaProdutosAssociadosDtoRequest;
 import br.com.api_eco_feira.model.central.Demanda_Produto_Associados;
 import br.com.api_eco_feira.service.central.DemandaService;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/demandaprodutoassociados")
@@ -60,6 +63,22 @@ public class Demanda_Produto_Associados_Controller {
             System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+    }
+
+    @GetMapping("/get/{idDemanda}")
+    @Operation(summary = "Recuperar os produtos por um ID",
+            description = "Essa uri permite recuperar os id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Recuperados"),
+            @ApiResponse(responseCode = "404", description = "Nada encontrado",
+                    content = @Content(mediaType = "application/json"))
+    })
+    public ResponseEntity<List<DemandaProdutoResponse>> getProdutosDemanda(@PathVariable Long idDemanda){
+        List<DemandaProdutoResponse> listaDemandas = demanda_produto_associados_service.getProdutos(idDemanda);
+        if(listaDemandas.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(listaDemandas);
     }
 
 }

@@ -1,7 +1,9 @@
 package br.com.api_eco_feira.controller.central;
 
+import br.com.api_eco_feira.dto.demanda.DemandaDtoPut;
 import br.com.api_eco_feira.dto.demanda.DemandaDtoRequest;
 import br.com.api_eco_feira.dto.demanda.DemandaDtoResponse;
+import br.com.api_eco_feira.dto.demanda.DemandaResponseUnique;
 import br.com.api_eco_feira.enumerador.StatusDemanda;
 import br.com.api_eco_feira.model.central.Demanda;
 import br.com.api_eco_feira.model.prefeitura.Prefeitura;
@@ -14,6 +16,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -87,22 +90,48 @@ public class DemandaController {
         return ResponseEntity.ok(ddr);
     }
 
-    /*@GetMapping("/get/{id}")
-    @Operation(summary = "uri para pegar as demandas pelo id",
-    description = "Essa uri é para pegar as demandas pelo id")
+    @GetMapping("/get/{id}")
+    @Operation(summary = "URI para pegar as demandas pelo ID",
+            description = "Essa URI é para pegar as demandas pelo ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Demanda recuperada com sucesso",
-            content = @Content(mediaType = "application/json")),
-            @ApiResponse(responseCode = "404", description = "Não encontrado o produto",
-            content = @Content(mediaType = "application/json"))
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "Demanda não encontrada",
+                    content = @Content(mediaType = "application/json"))
     })
-    public ResponseEntity<DemandaDtoResponse> getById(@PathVariable Long id){
-        DemandaDtoResponse demandaDtoResponse = demandaService.getId()
+    public ResponseEntity<DemandaResponseUnique> getById(@PathVariable Long id) {
+        DemandaResponseUnique dru = demandaService.getById(id);
+        if (dru == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(dru);
     }
-*/
+
+    @PutMapping("/put/{id}")
+    @Operation(summary = "URI para pegar as demandas pelo ID",
+            description = "Essa URI é para pegar as demandas pelo ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Demanda recuperada com sucesso",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "Demanda não encontrada",
+                    content = @Content(mediaType = "application/json"))
+    })
+    public ResponseEntity<String> putDemanda(@RequestBody DemandaDtoPut ddp, @PathVariable Long id) {
+        Demanda demanda =  demandaService.getId(id);
+        demanda.setDescricao(ddp.getDescricao());
+        demanda.setPrazoMaximo(ddp.getPrazoMaximo());
+
+        String retorno = demandaService.put(demanda);
+        if(retorno.startsWith("Erro")){
+            return ResponseEntity.badRequest().body(retorno);
+        }
+        return ResponseEntity.ok(retorno);
+    }
 
 
-    @GetMapping("/getDemandasByIbge/{ibge}")
+
+
+    /*@GetMapping("/getDemandasByIbge/{ibge}")
     @Operation(summary = "uri para pegar as demandas",
             description = "essa uri serve para pegar as demandas.")
     @ApiResponses(value = {
@@ -115,6 +144,6 @@ public class DemandaController {
         List<DemandaDtoResponse> ddr = demandaService.getDemandasByIbge(ibge);
 
         return ResponseEntity.ok(ddr);
-    }
+    }*/
 
 }

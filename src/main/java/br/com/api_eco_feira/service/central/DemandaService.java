@@ -1,6 +1,7 @@
 package br.com.api_eco_feira.service.central;
 
 import br.com.api_eco_feira.dto.demanda.DemandaDtoResponse;
+import br.com.api_eco_feira.dto.demanda.DemandaResponseUnique;
 import br.com.api_eco_feira.enumerador.StatusDemanda;
 import br.com.api_eco_feira.model.central.Demanda;
 import br.com.api_eco_feira.model.prefeitura.Prefeitura;
@@ -64,4 +65,33 @@ public class DemandaService {
                 .collect(Collectors.toList());
     }
 
+    public DemandaResponseUnique getById(Long id) {
+        Demanda demanda = demandaRepository.findById(id).orElse(null);
+        if (demanda == null) {
+            return null;
+        }
+        DemandaResponseUnique dru = new DemandaResponseUnique();
+        dru.setId(demanda.getIdDemanda());
+        dru.setStatusDemanda(demanda.getStatusDemanda());
+        dru.setPrazoMaximo(demanda.getPrazoMaximo());
+        dru.setValorTotalPrefeitura(demanda.getValorTotalPrefeitura());
+        dru.setDataCriacao(demanda.getDataCriacao());
+        dru.setDescricao(demanda.getDescricao());
+        return dru;
+    }
+
+    public String put(Demanda demanda) {
+        try{
+            demandaRepository.save(demanda);
+            return "Demanda atualizada";
+        }
+        catch(Exception e){
+            return "Erro aconteceu";
+        }
+    }
+
+
+    /*public List<DemandaDtoResponse> getDemandasByIbge(int ibge) {
+
+    }*/
 }

@@ -1,6 +1,7 @@
 package br.com.api_eco_feira.service.central;
 
 import br.com.api_eco_feira.dto.demanda.DemandaDtoResponse;
+import br.com.api_eco_feira.enumerador.StatusDemanda;
 import br.com.api_eco_feira.model.central.Demanda;
 import br.com.api_eco_feira.model.prefeitura.Prefeitura;
 import br.com.api_eco_feira.repository.central.DemandaRepository;
@@ -18,12 +19,12 @@ public class DemandaService {
     private DemandaRepository demandaRepository;
 
 
-    public String novaDemanda(Demanda demanda) {
-        try{
-            demandaRepository.save(demanda);
-            return "Nova demanda cadastrada";
-        }catch (Exception e){
-            return "Erro ao cadastrar novo demanda";
+    public Long novaDemanda(Demanda demanda) {
+        try {
+            Demanda demandaSalva = demandaRepository.save(demanda);
+            return demandaSalva.getIdDemanda();
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao salvar demanda: " + e.getMessage());
         }
     }
 
@@ -46,4 +47,21 @@ public class DemandaService {
                 ))
                 .collect(Collectors.toList());
     }
+
+    public List<DemandaDtoResponse> getAberta(Prefeitura prefeitura) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "idDemanda");
+        StatusDemanda statusAberta = StatusDemanda.ABERTA;
+        List<Demanda> demandas = demandaRepository.findByPrefeituraAndStatusDemanda(prefeitura, statusAberta, sort);
+
+        return demandas.stream()
+                .map(demanda -> new DemandaDtoResponse(
+                        demanda.getIdDemanda(),
+                        demanda.getDescricao(),
+                        demanda.getValorTotalPrefeitura(),
+                        demanda.getPrazoMaximo(),
+                        demanda.getStatusDemanda()
+                ))
+                .collect(Collectors.toList());
+    }
+
 }

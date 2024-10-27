@@ -35,9 +35,9 @@ public class Demanda_Produto_Associados {
     @JoinColumn(name = "prefeituraId", nullable = true)
     private Prefeitura prefeitura;
 
+    @Column(nullable = false)
+    private double valorPrefeitura;
+
     private int quantidade;
 
-    //private boolean atendido = false;
-
-    //private LocalDateTime dataAtendimento;
 }

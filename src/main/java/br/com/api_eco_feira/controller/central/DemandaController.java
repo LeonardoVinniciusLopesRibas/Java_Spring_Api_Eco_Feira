@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/api/demanda")
@@ -40,7 +41,7 @@ public class DemandaController {
             @ApiResponse(responseCode = "400", description = "Ocorreu um erro ao gerar uma demanda",
                     content = @Content(mediaType = "application/json"))
     })
-    public ResponseEntity<String> novaDemanda (@RequestBody DemandaDtoRequest ddr){
+    public ResponseEntity<Long> novaDemanda (@RequestBody DemandaDtoRequest ddr){
         Prefeitura prefeitura = prefeituraService.getId(ddr.getIdPrefeitura());
         Demanda demanda = new Demanda();
         demanda.setStatusDemanda(StatusDemanda.ABERTA);
@@ -49,11 +50,9 @@ public class DemandaController {
         demanda.setDescricao(ddr.getDescricao());
         demanda.setPrazoMaximo(ddr.getPrazoMaximo());
         demanda.setValorTotalPrefeitura(ddr.getValorTotalPrefeitura());
-        String retorno = demandaService.novaDemanda(demanda);
-        if (retorno.startsWith("Erro")) {
-            return ResponseEntity.badRequest().body(retorno);
-        }
-        return ResponseEntity.ok(retorno);
+        Long idRetornado = demandaService.novaDemanda(demanda);
+
+        return ResponseEntity.ok(idRetornado);
     }
 
     @GetMapping("/get")
@@ -72,6 +71,50 @@ public class DemandaController {
         return ResponseEntity.ok(ddr);
     }
 
+    @GetMapping("/getAberta")
+    @Operation(summary = "uri para pegar as demandas",
+            description = "essa uri serve para pegar as demandas.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Demandas recuperadas com sucesso",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "400", description = "Ocorreu um erro ao recuperas as demanda",
+                    content = @Content(mediaType = "application/json"))
+    })
+    public ResponseEntity<List<DemandaDtoResponse>> getAberta(@RequestParam Long idPrefeitura){
+        Prefeitura prefeitura = prefeituraService.getId(idPrefeitura);
+        List<DemandaDtoResponse> ddr = demandaService.getAberta(prefeitura);
 
+        return ResponseEntity.ok(ddr);
+    }
+
+    /*@GetMapping("/get/{id}")
+    @Operation(summary = "uri para pegar as demandas pelo id",
+    description = "Essa uri é para pegar as demandas pelo id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Demanda recuperada com sucesso",
+            content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "Não encontrado o produto",
+            content = @Content(mediaType = "application/json"))
+    })
+    public ResponseEntity<DemandaDtoResponse> getById(@PathVariable Long id){
+        DemandaDtoResponse demandaDtoResponse = demandaService.getId()
+    }
+*/
+
+
+    @GetMapping("/getDemandasByIbge/{ibge}")
+    @Operation(summary = "uri para pegar as demandas",
+            description = "essa uri serve para pegar as demandas.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Demandas recuperadas com sucesso",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "400", description = "Ocorreu um erro ao recuperas as demanda",
+                    content = @Content(mediaType = "application/json"))
+    })
+    public ResponseEntity<List<DemandaDtoResponse>> getDemandasByIbge(@PathVariable int ibge){
+        List<DemandaDtoResponse> ddr = demandaService.getDemandasByIbge(ibge);
+
+        return ResponseEntity.ok(ddr);
+    }
 
 }

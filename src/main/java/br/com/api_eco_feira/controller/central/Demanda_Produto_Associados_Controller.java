@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,21 +35,31 @@ public class Demanda_Produto_Associados_Controller {
     @Autowired
     private DemandaService demandaService;
 
-    /*@PostMapping("/novoProdutoPrefeitura")
+    @PostMapping("/novoProdutoPrefeitura")
     @Operation(summary = "Inserção de produto da prefeitura",
             description = "Essa uri permitirá que seja inserido o produto da prefeitura")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Produto inserido com sucesso",
-                    content = @Content(mediaType = "application/json")),
-            @ApiResponse(responseCode = "400", description = "Ocorreu um erro ao inserir o produto",
+            @ApiResponse(responseCode = "204", description = "Produto inserido com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Erro ao inserir o produto",
                     content = @Content(mediaType = "application/json"))
     })
-    public ResponseEntity<String> novoProdutoPrefeituraDemanda(@RequestBody @Valid DemandaProdutosAssociadosDtoRequest dpadr){
-        Demanda_Produto_Associados dpa = new Demanda_Produto_Associados();
-        dpa.setPrefeitura(prefeituraService.getId(dpadr.getPrefeitura()));
-        dpa.setProdutoPrefeitura(produtoPrefeituraService.getId(dpadr.getProduto()));
-        dpa.setDemandas(demandaService.getId(dpadr.getDemanda()));
-        dpa.setQuantidade(dpadr.getQuantidade());
-    }*/
+    public ResponseEntity<Void> novoProdutoPrefeituraDemanda(@RequestBody @Valid DemandaProdutosAssociadosDtoRequest dpadr) {
+        try {
+            Demanda_Produto_Associados dpa = new Demanda_Produto_Associados();
+            dpa.setPrefeitura(prefeituraService.getId(dpadr.getPrefeitura()));
+            dpa.setProdutoPrefeitura(produtoPrefeituraService.getId(dpadr.getProduto()));
+            dpa.setDemandas(demandaService.getId(dpadr.getDemanda()));
+            dpa.setQuantidade(dpadr.getQuantidade());
+            dpa.setValorPrefeitura(dpadr.getValorPrefeitura());
+
+            demanda_produto_associados_service.novoProdutoPrefeituraDemanda(dpa);
+
+            return ResponseEntity.ok().build();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
 
 }

@@ -15,5 +15,6 @@ public class DemandaProdutosAssociadosDtoRequest {
     private Long produto;
     private Long prefeitura;
     private int quantidade;
+    private double valorPrefeitura;
 
 }

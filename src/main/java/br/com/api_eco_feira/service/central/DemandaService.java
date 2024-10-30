@@ -90,6 +90,16 @@ public class DemandaService {
         }
     }
 
+    public String putCancelado(Demanda demanda) {
+        try{
+            demandaRepository.save(demanda);
+            return "Cancelado com sucesso";
+        }catch (Exception e){
+            return e.getMessage();
+        }
+    }
+
+
 
     /*public List<DemandaDtoResponse> getDemandasByIbge(int ibge) {
 

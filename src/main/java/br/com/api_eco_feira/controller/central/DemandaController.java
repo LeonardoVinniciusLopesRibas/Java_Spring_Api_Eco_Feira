@@ -128,6 +128,24 @@ public class DemandaController {
         return ResponseEntity.ok(retorno);
     }
 
+    @PutMapping("/put/cancelado/{id}")
+    @Operation(summary = "Uri para atualizar o status da demanda",
+            description = "Essa URI é para atualizar o status da demanda")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Demanda atualizada com sucesso",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "400", description = "Ocorreu um erro",
+                    content = @Content(mediaType = "application/json"))
+    })
+    public ResponseEntity<String> putCancelado(@PathVariable Long id) {
+        Demanda demanda =  demandaService.getId(id);
+        demanda.setStatusDemanda(StatusDemanda.CANCELADA);
+        String retorno = demandaService.putCancelado(demanda);
+        if(retorno.startsWith("Cancelado com sucesso")){
+            return ResponseEntity.ok(retorno);
+        }
+        return ResponseEntity.badRequest().body(retorno);
+    }
 
 
 

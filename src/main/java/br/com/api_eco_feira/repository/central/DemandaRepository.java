@@ -16,4 +16,6 @@ public interface DemandaRepository extends JpaRepository<Demanda, Long> {
 
     List<Demanda> findByPrefeituraAndStatusDemanda(Prefeitura prefeitura, StatusDemanda statusDemanda, Sort sort);
 
+    List<Demanda> findAllByStatusDemandaAndPrefeituraEnderecoCidadeIbge (StatusDemanda statusDemanda, int ibge);
+
 }

@@ -87,6 +87,10 @@ public class DemandaController {
         Prefeitura prefeitura = prefeituraService.getId(idPrefeitura);
         List<DemandaDtoResponse> ddr = demandaService.getAberta(prefeitura);
 
+        if(ddr.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
         return ResponseEntity.ok(ddr);
     }
 
@@ -148,8 +152,7 @@ public class DemandaController {
     }
 
 
-
-    /*@GetMapping("/getDemandasByIbge/{ibge}")
+    @GetMapping("/getDemandasByIbge/{ibge}")
     @Operation(summary = "uri para pegar as demandas",
             description = "essa uri serve para pegar as demandas.")
     @ApiResponses(value = {
@@ -161,7 +164,11 @@ public class DemandaController {
     public ResponseEntity<List<DemandaDtoResponse>> getDemandasByIbge(@PathVariable int ibge){
         List<DemandaDtoResponse> ddr = demandaService.getDemandasByIbge(ibge);
 
+        if(ddr.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
         return ResponseEntity.ok(ddr);
-    }*/
+    }
 
 }

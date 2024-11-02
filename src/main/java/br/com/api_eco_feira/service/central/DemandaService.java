@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -99,9 +101,28 @@ public class DemandaService {
         }
     }
 
+    public List<DemandaDtoResponse> getDemandasByIbge(int ibge) {
+        StatusDemanda statusDemanda = StatusDemanda.ABERTA;
+        List<Demanda> demandas = demandaRepository.findAllByStatusDemandaAndPrefeituraEnderecoCidadeIbge(statusDemanda, ibge);
 
+        if (demandas.isEmpty()) {
+            return Collections.emptyList();
+        }
 
-    /*public List<DemandaDtoResponse> getDemandasByIbge(int ibge) {
+        List<DemandaDtoResponse> demandaDtoResponses = new ArrayList<>();
 
-    }*/
+        for (Demanda demanda : demandas) {
+            DemandaDtoResponse ddr = new DemandaDtoResponse();
+            ddr.setIdDemanda(demanda.getIdDemanda());
+            ddr.setDescricao(demanda.getDescricao());
+            ddr.setStatusDemanda(demanda.getStatusDemanda());
+            ddr.setPrazoMaximo(demanda.getPrazoMaximo());
+            ddr.setValorTotalPrefeitura(demanda.getValorTotalPrefeitura());
+
+            demandaDtoResponses.add(ddr);
+        }
+
+        return demandaDtoResponses;
+    }
+
 }

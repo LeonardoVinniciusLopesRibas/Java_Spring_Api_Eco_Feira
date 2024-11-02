@@ -4,7 +4,6 @@ import br.com.api_eco_feira.dto.produtoprefeitura.ProdutoPrefeituraRequest;
 import br.com.api_eco_feira.dto.produtoprefeitura.ProdutoResponseList;
 import br.com.api_eco_feira.dto.produtoprefeitura.ProdutoResponseUnique;
 import br.com.api_eco_feira.model.prefeitura.ProdutoPrefeitura;
-import br.com.api_eco_feira.model.produtor.ProdutoProdutor;
 import br.com.api_eco_feira.service.prefeitura.PrefeituraService;
 import br.com.api_eco_feira.service.prefeitura.ProdutoPrefeituraService;
 import io.swagger.v3.oas.annotations.Operation;

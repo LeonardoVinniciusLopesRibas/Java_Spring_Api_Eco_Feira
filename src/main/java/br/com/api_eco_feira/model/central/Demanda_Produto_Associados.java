@@ -2,15 +2,11 @@ package br.com.api_eco_feira.model.central;
 
 import br.com.api_eco_feira.model.prefeitura.Prefeitura;
 import br.com.api_eco_feira.model.prefeitura.ProdutoPrefeitura;
-import br.com.api_eco_feira.model.produtor.Empresa;
-import br.com.api_eco_feira.model.produtor.ProdutoProdutor;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter

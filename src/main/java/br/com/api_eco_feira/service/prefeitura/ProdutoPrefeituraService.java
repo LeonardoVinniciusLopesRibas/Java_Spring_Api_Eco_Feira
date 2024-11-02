@@ -2,7 +2,6 @@ package br.com.api_eco_feira.service.prefeitura;
 
 import br.com.api_eco_feira.dto.produtoprefeitura.ProdutoResponseList;
 import br.com.api_eco_feira.model.prefeitura.ProdutoPrefeitura;
-import br.com.api_eco_feira.model.produtor.ProdutoProdutor;
 import br.com.api_eco_feira.repository.prefeitura.ProdutoPrefeituraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;

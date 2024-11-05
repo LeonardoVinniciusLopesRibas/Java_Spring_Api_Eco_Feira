@@ -4,6 +4,7 @@ import br.com.api_eco_feira.dto.demanda.DemandaDtoResponse;
 import br.com.api_eco_feira.dto.demanda.DemandaResponseUnique;
 import br.com.api_eco_feira.enumerador.StatusDemanda;
 import br.com.api_eco_feira.model.central.Demanda;
+import br.com.api_eco_feira.model.central.DemandaAssociaProdutor;
 import br.com.api_eco_feira.model.prefeitura.Prefeitura;
 import br.com.api_eco_feira.repository.central.DemandaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,4 +126,16 @@ public class DemandaService {
         return demandaDtoResponses;
     }
 
+    public List<DemandaDtoResponse> getDemandasAssociadas(List<DemandaAssociaProdutor> demandaAssociaProdutors) {
+        return demandaAssociaProdutors.stream()
+                .map(DemandaAssociaProdutor::getDemanda)
+                .map(demanda -> new DemandaDtoResponse(
+                        demanda.getIdDemanda(),
+                        demanda.getDescricao(),
+                        demanda.getValorTotalPrefeitura(),
+                        demanda.getPrazoMaximo(),
+                        demanda.getStatusDemanda()
+                ))
+                .collect(Collectors.toList());
+    }
 }

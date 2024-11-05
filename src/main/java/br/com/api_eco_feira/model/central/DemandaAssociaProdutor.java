@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class DemandaAssociadoProdutor {
+public class DemandaAssociaProdutor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,9 +20,7 @@ public class DemandaAssociadoProdutor {
 
     @ManyToOne
     @JoinColumn(name = "demandaId", nullable = false)
-    private Demanda_Produto_Associados demandaProdutoAssociados;
-
-    private double quantidadeAtendida;
+    private Demanda demanda;
 
     @ManyToOne
     @JoinColumn(name = "produtorId", nullable = false)

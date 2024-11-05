@@ -6,7 +6,10 @@ import br.com.api_eco_feira.dto.demanda.DemandaDtoResponse;
 import br.com.api_eco_feira.dto.demanda.DemandaResponseUnique;
 import br.com.api_eco_feira.enumerador.StatusDemanda;
 import br.com.api_eco_feira.model.central.Demanda;
+import br.com.api_eco_feira.model.central.DemandaAssociaProdutor;
 import br.com.api_eco_feira.model.prefeitura.Prefeitura;
+import br.com.api_eco_feira.repository.central.DemandaAssociaProdutorRepository;
+import br.com.api_eco_feira.service.central.DemandaAssociaProdutorService;
 import br.com.api_eco_feira.service.central.DemandaService;
 import br.com.api_eco_feira.service.prefeitura.PrefeituraService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/demanda")
@@ -34,6 +38,12 @@ public class DemandaController {
 
     @Autowired
     private PrefeituraService prefeituraService;
+
+    @Autowired
+    private DemandaAssociaProdutorService demandaAssociaProdutorService;
+
+    @Autowired
+    private DemandaAssociaProdutorRepository demandaAssociaProdutorRepository;
 
     @PostMapping("/new")
     @Operation(summary = "uri para nova demanda",
@@ -152,23 +162,47 @@ public class DemandaController {
     }
 
 
-    @GetMapping("/getDemandasByIbge/{ibge}")
-    @Operation(summary = "uri para pegar as demandas",
-            description = "essa uri serve para pegar as demandas.")
+    @GetMapping("/getDemandasByIbge/{ibge}/{idProdutor}")
+    @Operation(summary = "URI para pegar as demandas",
+            description = "Essa URI serve para pegar as demandas ainda não associadas ao produtor especificado.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Demandas recuperadas com sucesso",
                     content = @Content(mediaType = "application/json")),
-            @ApiResponse(responseCode = "400", description = "Ocorreu um erro ao recuperas as demanda",
+            @ApiResponse(responseCode = "400", description = "Ocorreu um erro ao recuperar as demandas",
                     content = @Content(mediaType = "application/json"))
     })
-    public ResponseEntity<List<DemandaDtoResponse>> getDemandasByIbge(@PathVariable int ibge){
-        List<DemandaDtoResponse> ddr = demandaService.getDemandasByIbge(ibge);
+    public ResponseEntity<List<DemandaDtoResponse>> getDemandasByIbge(@PathVariable int ibge, @PathVariable Long idProdutor) {
+        List<DemandaDtoResponse> demandas = demandaService.getDemandasByIbge(ibge);
 
-        if(ddr.isEmpty()){
+        List<DemandaDtoResponse> demandasNaoAssociadas = demandas.stream()
+                .filter(demanda -> !demandaAssociaProdutorService.isDemandaAssociadaAoProdutor(demanda.getIdDemanda(), idProdutor))
+                .collect(Collectors.toList());
+
+        if (demandasNaoAssociadas.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(ddr);
+        return ResponseEntity.ok(demandasNaoAssociadas);
     }
+
+    @GetMapping("/get/demandas/do/produtor/{idEmpresa}")
+    @Operation(summary = "Uri para pegar as demandas que foram atendidas pelo produtor",
+            description = "Essa uri, é para pegar as demandas que foram atendidas pelo produtor")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Demandas atendidas pelo produtor recuperadas",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "Não encontrado demandas recuperadas pelo produtor",
+                    content = @Content(mediaType = "application/json"))
+    })
+    public ResponseEntity<List<DemandaDtoResponse>> getDemandasDoProdutor(@PathVariable Long idEmpresa) {
+        List<DemandaAssociaProdutor> demandaAssociaProdutors = demandaAssociaProdutorRepository.findAllByEmpresaIdEmpresa(idEmpresa);
+        List<DemandaDtoResponse> demandas = demandaService.getDemandasAssociadas(demandaAssociaProdutors);
+
+        if (demandas.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(demandas);
+        }
+        return ResponseEntity.ok(demandas);
+    }
+
 
 }

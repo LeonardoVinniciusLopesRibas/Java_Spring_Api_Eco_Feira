@@ -15,4 +15,5 @@ public class DemandaProdutoResponse {
     private String produtoPrefeitura;
     private double quantidade;
     private double valorPrefeitura;
+    private double saldo;
 }

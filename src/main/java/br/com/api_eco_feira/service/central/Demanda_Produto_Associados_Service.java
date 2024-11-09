@@ -33,15 +33,17 @@ public class Demanda_Produto_Associados_Service {
     public List<DemandaProdutoResponse> getProdutos(Long idDemanda) {
         Demanda demanda = demandaRepository.findById(idDemanda).orElse(null);
         List<Demanda_Produto_Associados> produtosDemandas =
-                demanda_produto_associados_repository.findAllByDemandas(demanda); // A função deve ser implementada no repositório
-
-        // Mapeia o resultado para o DTO
+                demanda_produto_associados_repository.findAllByDemandas(demanda);
         return produtosDemandas.stream().map(produto -> {
             DemandaProdutoResponse response = new DemandaProdutoResponse();
             response.setIdDemandaProduto(produto.getIdDemandaProduto());
-            response.setProdutoPrefeitura(produto.getProdutoPrefeitura().getNome()); // Certifique-se de ter um método getNome() em ProdutoPrefeitura
+            response.setProdutoPrefeitura(produto.getProdutoPrefeitura().getNome());
             response.setQuantidade(produto.getQuantidade());
             response.setValorPrefeitura(produto.getValorPrefeitura());
+            double saldo = produto.getSaldo();
+            double quantidade = produto.getQuantidade();
+            double percentual = (quantidade > 0) ? Math.round((double) saldo / quantidade * 100 * 100) / 100.0 : 0.0;
+            response.setSaldo(percentual);
             return response;
         }).collect(Collectors.toList());
     }

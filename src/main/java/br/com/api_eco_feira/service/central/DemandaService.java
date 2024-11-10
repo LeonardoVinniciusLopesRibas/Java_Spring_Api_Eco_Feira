@@ -96,7 +96,7 @@ public class DemandaService {
     public String putCancelado(Demanda demanda) {
         try{
             demandaRepository.save(demanda);
-            return "Cancelado com sucesso";
+            return "Sucesso";
         }catch (Exception e){
             return e.getMessage();
         }

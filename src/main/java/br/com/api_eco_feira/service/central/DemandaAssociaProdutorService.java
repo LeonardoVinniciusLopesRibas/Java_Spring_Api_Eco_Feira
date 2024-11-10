@@ -1,5 +1,6 @@
 package br.com.api_eco_feira.service.central;
 
+import br.com.api_eco_feira.enumerador.StatusDemanda;
 import br.com.api_eco_feira.model.central.DemandaAssociaProdutor;
 import br.com.api_eco_feira.repository.central.DemandaAssociaProdutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class DemandaAssociaProdutorService {
     }
 
     public List<DemandaAssociaProdutor> getDados(Long idProdutor){
-        return demandaAssociaProdutorRepository.findAllByEmpresaIdEmpresa(idProdutor);
+        StatusDemanda statusDemanda = StatusDemanda.ABERTA;
+        return demandaAssociaProdutorRepository.findAllByEmpresaIdEmpresaAndDemanda_StatusDemanda(idProdutor, statusDemanda);
     }
 }

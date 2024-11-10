@@ -155,7 +155,26 @@ public class DemandaController {
         Demanda demanda =  demandaService.getId(id);
         demanda.setStatusDemanda(StatusDemanda.CANCELADA);
         String retorno = demandaService.putCancelado(demanda);
-        if(retorno.startsWith("Cancelado com sucesso")){
+        if(retorno.startsWith("Sucesso")){
+            return ResponseEntity.ok(retorno);
+        }
+        return ResponseEntity.badRequest().body(retorno);
+    }
+
+    @PutMapping("/put/concluido/{id}")
+    @Operation(summary = "Uri para atualizar o status da demanda",
+            description = "Essa URI é para atualizar o status da demanda")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Demanda atualizada com sucesso",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "400", description = "Ocorreu um erro",
+                    content = @Content(mediaType = "application/json"))
+    })
+    public ResponseEntity<String> putConcluido(@PathVariable Long id) {
+        Demanda demanda =  demandaService.getId(id);
+        demanda.setStatusDemanda(StatusDemanda.CONCLUIDA);
+        String retorno = demandaService.putCancelado(demanda);
+        if(retorno.startsWith("Sucesso")){
             return ResponseEntity.ok(retorno);
         }
         return ResponseEntity.badRequest().body(retorno);
@@ -195,7 +214,8 @@ public class DemandaController {
                     content = @Content(mediaType = "application/json"))
     })
     public ResponseEntity<List<DemandaDtoResponse>> getDemandasDoProdutor(@PathVariable Long idEmpresa) {
-        List<DemandaAssociaProdutor> demandaAssociaProdutors = demandaAssociaProdutorRepository.findAllByEmpresaIdEmpresa(idEmpresa);
+        List<DemandaAssociaProdutor> demandaAssociaProdutors = demandaAssociaProdutorService.getDados(idEmpresa);
+                //demandaAssociaProdutorRepository.findAllByEmpresaIdEmpresa(idEmpresa);
         List<DemandaDtoResponse> demandas = demandaService.getDemandasAssociadas(demandaAssociaProdutors);
 
         if (demandas.isEmpty()) {

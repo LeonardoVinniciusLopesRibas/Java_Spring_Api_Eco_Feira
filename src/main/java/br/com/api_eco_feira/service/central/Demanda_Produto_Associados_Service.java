@@ -47,4 +47,13 @@ public class Demanda_Produto_Associados_Service {
             return response;
         }).collect(Collectors.toList());
     }
+
+    public Demanda_Produto_Associados findById(Long idDemandaProdutoAssociados){
+        return demanda_produto_associados_repository.findById(idDemandaProdutoAssociados).orElse(null);
+    }
+
+    public String atualizar(Demanda_Produto_Associados demandaProdutoAssociados){
+        demanda_produto_associados_repository.save(demandaProdutoAssociados);
+        return "Sucesso";
+    }
 }

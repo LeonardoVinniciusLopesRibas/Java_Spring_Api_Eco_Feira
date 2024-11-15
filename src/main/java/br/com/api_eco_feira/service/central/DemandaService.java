@@ -68,6 +68,22 @@ public class DemandaService {
                 .collect(Collectors.toList());
     }
 
+    public List<DemandaDtoResponse> getFechada(Prefeitura prefeitura) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "idDemanda");
+        StatusDemanda statusAberta = StatusDemanda.CONCLUIDA;
+        List<Demanda> demandas = demandaRepository.findByPrefeituraAndStatusDemanda(prefeitura, statusAberta, sort);
+
+        return demandas.stream()
+                .map(demanda -> new DemandaDtoResponse(
+                        demanda.getIdDemanda(),
+                        demanda.getDescricao(),
+                        demanda.getValorTotalPrefeitura(),
+                        demanda.getPrazoMaximo(),
+                        demanda.getStatusDemanda()
+                ))
+                .collect(Collectors.toList());
+    }
+
     public DemandaResponseUnique getById(Long id) {
         Demanda demanda = demandaRepository.findById(id).orElse(null);
         if (demanda == null) {

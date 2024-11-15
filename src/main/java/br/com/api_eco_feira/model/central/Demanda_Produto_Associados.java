@@ -35,7 +35,7 @@ public class Demanda_Produto_Associados {
     private double valorPrefeitura;
 
     @Column(nullable = false)
-    private int quantidade;
+    private double quantidade;
 
     @Column(nullable = false)
     private double saldo;

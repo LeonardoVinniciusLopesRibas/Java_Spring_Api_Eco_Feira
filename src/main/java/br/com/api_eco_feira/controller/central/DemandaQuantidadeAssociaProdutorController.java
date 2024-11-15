@@ -1,5 +1,6 @@
 package br.com.api_eco_feira.controller.central;
 
+import br.com.api_eco_feira.dto.quantidade.QuantidadeAtendidaResponseList;
 import br.com.api_eco_feira.model.central.Demanda;
 import br.com.api_eco_feira.model.central.DemandaQuantidadeAssociaProdutor;
 import br.com.api_eco_feira.model.central.Demanda_Produto_Associados;
@@ -16,6 +17,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/demanda/quantidade/associa/produtor")
@@ -77,5 +80,38 @@ public class DemandaQuantidadeAssociaProdutorController {
 
     }
 
+    @GetMapping("/getatendimento/{idDemanda}/{idProdutosAssociados}")
+    @Operation(summary = "uri para pegar os atendimentos da demanda",
+            description = "essa uri serve para dar get no atendimento da demanda.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Atendimentos recuperados com sucesso",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "400", description = "Ocorreu um erro ao recuperar as demandas",
+                    content = @Content(mediaType = "application/json"))
+    })
+    public ResponseEntity<List<QuantidadeAtendidaResponseList>> getAtendimento(@PathVariable Long idDemanda, @PathVariable Long idProdutosAssociados){
+        List<QuantidadeAtendidaResponseList> quantidadeAtendidaResponseList = demandaQuantidadeAssociaProdutorService.getAtendimento(idDemanda, idProdutosAssociados);
+        if(quantidadeAtendidaResponseList == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(quantidadeAtendidaResponseList);
+    }
+
+    @DeleteMapping("deleteQuantidadeAtendida/idquantidadeatendida/{idQuantidadeAtendida}/iddemanda/{idDemanda}/quantidade/{quantidade}")
+    @Operation(summary = "uri para deletar um atendimento da demanda",
+            description = "essa uri serve para dar delete no atendimento da demanda.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Atendimento deletado com sucesso",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "400", description = "Ocorreu um erro ao deletar as demandas",
+                    content = @Content(mediaType = "application/json"))
+    })
+    public ResponseEntity<String> deleteQuantidadeAtendida(@PathVariable Long idQuantidadeAtendida, @PathVariable Long idDemanda, @PathVariable double quantidade){
+        String retorno = demandaQuantidadeAssociaProdutorService.delete(idQuantidadeAtendida, idDemanda, quantidade);
+        if(retorno.startsWith("Erro")){
+            return ResponseEntity.badRequest().body(retorno);
+        }
+        return ResponseEntity.ok(retorno);
+    }
 
 }

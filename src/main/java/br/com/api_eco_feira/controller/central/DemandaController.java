@@ -104,6 +104,26 @@ public class DemandaController {
         return ResponseEntity.ok(ddr);
     }
 
+    @GetMapping("/getFechada")
+    @Operation(summary = "uri para pegar as demandas",
+            description = "essa uri serve para pegar as demandas.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Demandas recuperadas com sucesso",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "400", description = "Ocorreu um erro ao recuperas as demanda",
+                    content = @Content(mediaType = "application/json"))
+    })
+    public ResponseEntity<List<DemandaDtoResponse>> getFechadas(@RequestParam Long idPrefeitura){
+        Prefeitura prefeitura = prefeituraService.getId(idPrefeitura);
+        List<DemandaDtoResponse> ddr = demandaService.getFechada(prefeitura);
+
+        if(ddr.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(ddr);
+    }
+
     @GetMapping("/get/{id}")
     @Operation(summary = "URI para pegar as demandas pelo ID",
             description = "Essa URI é para pegar as demandas pelo ID")
@@ -173,6 +193,25 @@ public class DemandaController {
     public ResponseEntity<String> putConcluido(@PathVariable Long id) {
         Demanda demanda =  demandaService.getId(id);
         demanda.setStatusDemanda(StatusDemanda.CONCLUIDA);
+        String retorno = demandaService.putCancelado(demanda);
+        if(retorno.startsWith("Sucesso")){
+            return ResponseEntity.ok(retorno);
+        }
+        return ResponseEntity.badRequest().body(retorno);
+    }
+
+    @PutMapping("/put/aberto/{id}")
+    @Operation(summary = "Uri para atualizar o status da demanda",
+            description = "Essa URI é para atualizar o status da demanda")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Demanda atualizada com sucesso",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "400", description = "Ocorreu um erro",
+                    content = @Content(mediaType = "application/json"))
+    })
+    public ResponseEntity<String> putAberta(@PathVariable Long id) {
+        Demanda demanda =  demandaService.getId(id);
+        demanda.setStatusDemanda(StatusDemanda.ABERTA);
         String retorno = demandaService.putCancelado(demanda);
         if(retorno.startsWith("Sucesso")){
             return ResponseEntity.ok(retorno);

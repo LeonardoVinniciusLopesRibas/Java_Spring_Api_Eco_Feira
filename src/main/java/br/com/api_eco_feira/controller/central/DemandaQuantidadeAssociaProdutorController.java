@@ -45,8 +45,10 @@ public class DemandaQuantidadeAssociaProdutorController {
                     content = @Content(mediaType = "application/json"))
     })
     public ResponseEntity<String> atender(@PathVariable Long idEmpresa, @PathVariable Long idDemanda,
-                                          @PathVariable Long idDemandaProdutosAssociados, @PathVariable double quantidade) {
-        Demanda_Produto_Associados demandaProdutoAssociados = demanda_produto_associados_service.findById(idDemandaProdutosAssociados);
+                                          @PathVariable Long idDemandaProdutosAssociados,
+                                          @PathVariable double quantidade) {
+        Demanda_Produto_Associados demandaProdutoAssociados =
+                demanda_produto_associados_service.findById(idDemandaProdutosAssociados);
         if (quantidade > (demandaProdutoAssociados.getQuantidade() - demandaProdutoAssociados.getSaldo())) {
             return ResponseEntity.badRequest().body("Quantidade não pode ser maior que o saldo restante");
         } else if (quantidade <= 0) {
@@ -63,6 +65,7 @@ public class DemandaQuantidadeAssociaProdutorController {
             demandaQuantidadeAssociaProdutor.setQuantidade(quantidade);
             demandaQuantidadeAssociaProdutor.setDemanda(demanda);
             demandaQuantidadeAssociaProdutor.setEmpresa(empresa);
+            demandaQuantidadeAssociaProdutor.setDemandaProdutoAssociados(demandaProdutoAssociados);
 
             String retorno = demandaQuantidadeAssociaProdutorService.atendendo(demandaQuantidadeAssociaProdutor);
 

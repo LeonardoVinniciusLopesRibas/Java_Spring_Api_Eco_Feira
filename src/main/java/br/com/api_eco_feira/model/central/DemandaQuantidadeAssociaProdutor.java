@@ -26,6 +26,10 @@ public class DemandaQuantidadeAssociaProdutor {
     @JoinColumn(name = "demandaId", nullable = false)
     private Demanda demanda;
 
+    @ManyToOne
+    @JoinColumn(name = "demandaProdutosAssociadosId", nullable = false)
+    private Demanda_Produto_Associados demandaProdutoAssociados;
+
     private double quantidade;
 
 }

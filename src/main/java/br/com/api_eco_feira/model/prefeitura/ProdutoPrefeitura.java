@@ -1,5 +1,7 @@
 package br.com.api_eco_feira.model.prefeitura;
 
+import br.com.api_eco_feira.enumerador.StatusDemanda;
+import br.com.api_eco_feira.enumerador.UnidadeMedida;
 import br.com.api_eco_feira.model.central.Demanda_Produto_Associados;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -35,6 +37,9 @@ public class ProdutoPrefeitura {
     @JoinColumn(name = "prefeituraId", nullable = false)
     private Prefeitura prefeitura;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UnidadeMedida unidadeMedida;
 
     private boolean ativo;
 

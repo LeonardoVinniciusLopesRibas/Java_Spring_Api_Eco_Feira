@@ -110,6 +110,7 @@ public class ProdutoPrefeituraController {
         produtoResponseUnique.setId(produtoPrefeitura.getIdProduto());
         produtoResponseUnique.setNome(produtoPrefeitura.getNome());
         produtoResponseUnique.setValorCompra(produtoPrefeitura.getValorCompra());
+        produtoResponseUnique.setUnidadeMedida(produtoPrefeitura.getUnidadeMedida());
 
         if(produtoPrefeitura == null){
             return ResponseEntity.notFound().build();
@@ -131,6 +132,7 @@ public class ProdutoPrefeituraController {
         produtoRetornado.setIdProduto(id);
         produtoRetornado.setNome(produtoPrefeituraRequest.getNome());
         produtoRetornado.setValorCompra(produtoPrefeituraRequest.getValorCompra());
+        produtoRetornado.setUnidadeMedida(produtoPrefeituraRequest.getUnidadeMedida());
         String retorno = produtoPrefeituraService.put(produtoRetornado);
         if(retorno.startsWith("Erro")){
             return ResponseEntity.badRequest().body(retorno);

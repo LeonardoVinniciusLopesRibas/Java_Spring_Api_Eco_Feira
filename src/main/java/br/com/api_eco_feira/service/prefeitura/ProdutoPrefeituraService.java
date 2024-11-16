@@ -1,5 +1,6 @@
 package br.com.api_eco_feira.service.prefeitura;
 
+import br.com.api_eco_feira.controller.prefeitura.ProdutoPrefeituraController;
 import br.com.api_eco_feira.dto.produtoprefeitura.ProdutoResponseList;
 import br.com.api_eco_feira.model.prefeitura.ProdutoPrefeitura;
 import br.com.api_eco_feira.repository.prefeitura.ProdutoPrefeituraRepository;
@@ -44,7 +45,8 @@ public class ProdutoPrefeituraService {
                 .map(produtoPrefeituraResponse -> new ProdutoResponseList(
                         produtoPrefeituraResponse.getIdProduto(),
                         produtoPrefeituraResponse.getNome(),
-                        produtoPrefeituraResponse.getValorCompra()
+                        produtoPrefeituraResponse.getValorCompra(),
+                        produtoPrefeituraResponse.getUnidadeMedida()
                 )).collect(Collectors.toList());
 
     }
@@ -64,7 +66,8 @@ public class ProdutoPrefeituraService {
                 .map(produtoPrefeitura -> new ProdutoResponseList(
                         produtoPrefeitura.getIdProduto(),
                         produtoPrefeitura.getNome(),
-                        produtoPrefeitura.getValorCompra()
+                        produtoPrefeitura.getValorCompra(),
+                        produtoPrefeitura.getUnidadeMedida()
                 ))
                 .collect(Collectors.toList());
     }

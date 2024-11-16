@@ -1,5 +1,6 @@
 package br.com.api_eco_feira.dto.quantidade;
 
+import br.com.api_eco_feira.enumerador.UnidadeMedida;
 import br.com.api_eco_feira.model.produtor.Empresa;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,5 +17,6 @@ public class QuantidadeAtendidaResponseList {
     private String produtor;
     private String cnpj;
     private double quantidade;
+    private UnidadeMedida unidadeMedida;
 
 }

@@ -40,6 +40,7 @@ public class Demanda_Produto_Associados_Service {
             response.setProdutoPrefeitura(produto.getProdutoPrefeitura().getNome());
             response.setQuantidade(produto.getQuantidade());
             response.setValorPrefeitura(produto.getValorPrefeitura());
+            response.setUnidadeMedida(produto.getProdutoPrefeitura().getUnidadeMedida());
             double saldo = produto.getSaldo();
             double quantidade = produto.getQuantidade();
             double percentual = (quantidade > 0) ? Math.round((double) saldo / quantidade * 100 * 100) / 100.0 : 0.0;

@@ -45,6 +45,7 @@ public class DemandaQuantidadeAssociaProdutorService {
             quantidadeAtendidaResponseList.setQuantidade(quantidadeAtendidaResponse.getQuantidade());
             quantidadeAtendidaResponseList.setProdutor(quantidadeAtendidaResponse.getEmpresa().getRazaoSocial());
             quantidadeAtendidaResponseList.setCnpj(quantidadeAtendidaResponse.getEmpresa().getCnpj());
+            quantidadeAtendidaResponseList.setUnidadeMedida(quantidadeAtendidaResponse.getDemandaProdutoAssociados().getProdutoPrefeitura().getUnidadeMedida());
             return quantidadeAtendidaResponseList;
         }).collect(Collectors.toList());
 

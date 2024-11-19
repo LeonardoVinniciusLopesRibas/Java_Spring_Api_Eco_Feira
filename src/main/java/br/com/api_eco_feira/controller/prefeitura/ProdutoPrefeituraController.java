@@ -46,6 +46,7 @@ public class ProdutoPrefeituraController {
         produtoPrefeitura.setValorCompra(ppr.getValorCompra());
         produtoPrefeitura.setAtivo(true);
         produtoPrefeitura.setPrefeitura(prefeituraService.getId(idPrefeitura));
+        produtoPrefeitura.setUnidadeMedida(ppr.getUnidadeMedida());
 
         String retorno = produtoPrefeituraService.post(produtoPrefeitura);
 
